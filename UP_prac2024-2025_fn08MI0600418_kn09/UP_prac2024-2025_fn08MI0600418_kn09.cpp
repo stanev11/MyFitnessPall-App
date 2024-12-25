@@ -140,6 +140,30 @@ int GetActiveness()
 	} while (true);
 	return option;
 }
+//Get Goals Of User
+int GetGoal()
+{
+	int goal;
+	do
+	{
+		cout << "- Choose Goal -" << endl;
+		cout << "1 - Lose Weight" << endl;
+		cout << "2 - Maintain Weight" << endl;
+		cout << "3 - Gain Weight" << endl;
+		cout << "Choose your goal : ";
+		cin >> goal;
+		cout << endl;
+		if (cin.fail())
+		{
+			cin.clear();
+			cin.ignore();
+			cout << "Invalid input!";
+		}
+		else if (goal != 1 && goal != 2 && goal != 3) cout << "Invalid choice!";
+		else break;
+	} while (true);
+	return goal;
+}
 int main()
 {
 	//1 - Register or log-in window
@@ -205,6 +229,7 @@ void RegisterWindow()
 	double height = GetHeight();
 	double weight = GetWeight();
 	int levelOfActiveness = GetActiveness();
+	int goal = GetGoal();
 
 bool CheckIfUserExists(string username, string password)
 {
