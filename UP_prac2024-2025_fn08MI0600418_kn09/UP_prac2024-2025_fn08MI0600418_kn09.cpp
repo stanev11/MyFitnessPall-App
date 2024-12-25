@@ -73,6 +73,27 @@ bool GetGender()
 		else if (gender == 1) return 1;
 	} while (true);
 }
+//Get Height Of User
+double GetHeight()
+{
+	const double MIN_HEIGHT = 50;
+	double height;
+	do
+	{
+		cout << "Height : ";
+		cin >> height;
+		cout << endl;
+		if (cin.fail())
+		{
+			cin.clear();
+			cin.ignore();
+			cout << "Invalid input!";
+		}
+		else if (height - MIN_HEIGHT < 0.0000) cout << "Invalid height!";
+		else break;
+	} while (true);
+	return height;
+}
 int main()
 {
 	//1 - Register or log-in window
@@ -135,6 +156,7 @@ void RegisterWindow()
 	cout << "- - - Parameters - - -"<<endl;
 	unsigned int age = GetAge();
 	bool gender = GetGender();
+	double height = GetHeight();
 
 bool CheckIfUserExists(string username, string password)
 {
