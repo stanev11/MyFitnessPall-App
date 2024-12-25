@@ -27,6 +27,33 @@ void RegisterWindow();
 
 //Checking if a user has profile
 bool CheckIfUserExists(string username, string password);
+
+// - - - Small Functions To Get Parameters - - -
+//Get Age Of User - Min Age 10
+int GetAge()
+{
+	const int MIN_AGE = 10;
+	int age;
+	do
+	{
+		cout << "Age : ";
+		cin >> age;
+		cout << endl;
+		if (cin.fail())
+		{
+			cin.clear();
+			cin.ignore();
+			cout << "Invalid input!";
+		}
+		else if (age < MIN_AGE)
+		{
+			cout << "Not old enough!";
+		}
+		else break;
+		cout << endl;
+	} while (true);
+	return age;
+}
 int main()
 {
 	//1 - Register or log-in window
@@ -85,6 +112,9 @@ void RegisterWindow()
 
 // Run program: Ctrl + F5 or Debug > Start Without Debugging menu
 // Debug program: F5 or Debug > Start Debugging menu
+	//User input about physical parameters
+	cout << "- - - Parameters - - -"<<endl;
+	unsigned int age = GetAge();
 
 bool CheckIfUserExists(string username, string password)
 {
