@@ -115,6 +115,31 @@ double GetWeight()
 	} while (true);
 	return weight;
 }
+//Get Level Of Activeness
+int GetActiveness()
+{
+	int option;
+	do
+	{
+		cout << "- Level of activeness -" << endl;
+		cout << "1 - Not very active"<<endl;
+		cout << "2 - Slightly Active" << endl;
+		cout << "3 - Active" << endl;
+		cout << "4 - Very Active" << endl;
+		cout << "What is your level of activeness? : ";
+		cin >> option;
+		cout << endl;
+		if (cin.fail())
+		{
+			cin.clear();
+			cin.ignore();
+			cout << "Invalid input!";
+		}
+		else if (option != 1 && option != 2 && option != 3 && option != 4) cout << "Invalid choice!";
+		else break;
+	} while (true);
+	return option;
+}
 int main()
 {
 	//1 - Register or log-in window
@@ -179,6 +204,7 @@ void RegisterWindow()
 	bool gender = GetGender();
 	double height = GetHeight();
 	double weight = GetWeight();
+	int levelOfActiveness = GetActiveness();
 
 bool CheckIfUserExists(string username, string password)
 {
