@@ -94,6 +94,27 @@ double GetHeight()
 	} while (true);
 	return height;
 }
+//Get Weight
+double GetWeight()
+{
+	const double MIN_WEIGHT = 50;
+	double weight;
+	do
+	{
+		cout << "Weight : ";
+		cin >> weight;
+		cout << endl;
+		if (cin.fail())
+		{
+			cin.clear();
+			cin.ignore();
+			cout << "Invalid input!";
+		}
+		else if (weight - MIN_WEIGHT < 0.0000) cout << "Invalid weight!";
+		else break;
+	} while (true);
+	return weight;
+}
 int main()
 {
 	//1 - Register or log-in window
@@ -157,6 +178,7 @@ void RegisterWindow()
 	unsigned int age = GetAge();
 	bool gender = GetGender();
 	double height = GetHeight();
+	double weight = GetWeight();
 
 bool CheckIfUserExists(string username, string password)
 {
