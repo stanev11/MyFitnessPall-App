@@ -54,6 +54,25 @@ int GetAge()
 	} while (true);
 	return age;
 }
+//Get Gender Of User
+bool GetGender()
+{
+	bool gender;
+	do
+	{
+		cout << "Gender (\"0\" for man / \"1\" for woman): ";
+		cin >> gender;
+		cout << endl;
+		if (cin.fail())
+		{
+			cin.clear();
+			cin.ignore();
+			cout << "Invalid gender choice!";
+		}
+		else if (gender == 0) return 0;
+		else if (gender == 1) return 1;
+	} while (true);
+}
 int main()
 {
 	//1 - Register or log-in window
@@ -115,6 +134,7 @@ void RegisterWindow()
 	//User input about physical parameters
 	cout << "- - - Parameters - - -"<<endl;
 	unsigned int age = GetAge();
+	bool gender = GetGender();
 
 bool CheckIfUserExists(string username, string password)
 {
