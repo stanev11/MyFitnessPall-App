@@ -164,6 +164,28 @@ int GetGoal()
 	} while (true);
 	return goal;
 }
+//Get Type Of Account
+int GetTypeOfAccount()
+{
+	int type;
+	do
+	{
+		cout << "- Type Of Account -" << endl;
+		cout << "1 - Standard" << endl;
+		cout << "2 - Premium" << endl;
+		cout << "Choose type of account : ";
+		cin >> type;
+		if (cin.fail())
+		{
+			cin.clear();
+			cin.ignore();
+			cout << "Invalid input!";
+		}
+		else if (type != 1 && type != 2) cout << "Invalid choice!";
+		else break;
+	} while (true);
+	return type;
+}
 int main()
 {
 	//1 - Register or log-in window
@@ -231,6 +253,10 @@ void RegisterWindow()
 	int levelOfActiveness = GetActiveness();
 	int goal = GetGoal();
 
+	//Type Of Account
+	int typeOfAccount = GetTypeOfAccount();
+
+}
 bool CheckIfUserExists(string username, string password)
 {
 	bool exists = false;
