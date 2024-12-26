@@ -39,7 +39,7 @@ void RegisterWindow();
 //Create Profile
 void CreateProfile(string username, string password, int age, bool gender, double height, double weight, int levelOfActiveness, int goal);
 //Checking if a user has profile
-bool CheckIfUserExists(string username, string password);
+bool CheckIfUserExists(string username);
 
 // - - - Small Functions To Get Parameters - - -
 //Get Age Of User - Min Age 10
@@ -206,6 +206,14 @@ int GetTypeOfAccount()
 	return type;
 }
 
+//0 Control Function
+void StartProgram()
+{
+	//1 - Register or log-in window
+	RegisterOrLogIn();
+
+}
+
 int main()
 {
 	StartProgram();
@@ -309,16 +317,20 @@ void RegisterWindow()
 
 //Check If User Already Exists
 bool CheckIfUserExists(string username, string password)
+bool CheckIfUserExists(string username)
 {
 	bool exists = false;
+	bool existMessage=0;
 	string fileText;
 	string fileUsername, filePassword;
+	string fileUsername;
 	//Read From The Users Info File
 	ifstream ReadUserInfo("usersInfo.txt");
 	//Looping through the info
 	while (getline(ReadUserInfo, fileText))
 	{
 		int lenOfUsername = fileText.find(' ');
+		size_t lenOfUsername = fileText.find(' ');
 		fileUsername = fileText.substr(0, lenOfUsername);
 		int lenOfPassword = fileText.find(' ', lenOfUsername + 1)-lenOfUsername-1;
 		filePassword = fileText.substr(lenOfUsername + 1,lenOfPassword);
@@ -332,9 +344,11 @@ bool CheckIfUserExists(string username, string password)
 		{
 			cout << "This password is already taken! Please choose another password!"<<endl;
 			exists = true;
+			existMessage = 1; 
 			break;
 		}
 	}
 	ReadUserInfo.close();
 	return exists;
+	return existMessage;
 }
