@@ -19,6 +19,14 @@
 #include <string>
 using namespace std;
 
+//0 Control Function
+void StartProgram()
+{
+	//1 - Register or log-in window
+	RegisterOrLogIn();
+
+}
+
 //1 - Register or log-in window
 void RegisterOrLogIn();
 
@@ -199,6 +207,7 @@ int main()
 {
 	//1 - Register or log-in window
 	RegisterOrLogIn();
+	StartProgram();
 }
 //Register or log-in window
 void RegisterOrLogIn()
@@ -230,6 +239,8 @@ void RegisterOrLogIn()
 			break;
 		}
 		else
+
+//Create profile
 void CreateProfile(string username,string password,int age,bool gender,double height,double weight,int levelOfActiveness,int goal)
 {
 	ofstream WriteInFile("usersInfo.txt",ios::app);
@@ -239,6 +250,8 @@ void CreateProfile(string username,string password,int age,bool gender,double he
 	WriteInFile.close();
 	cout << "- Successfully created a profile! -";
 }
+
+//Register Window
 void RegisterWindow()
 {
 	cout << "- - - Registration Form - - -" << endl << endl;
@@ -278,6 +291,8 @@ void RegisterWindow()
 	CreateProfile(username, password, age, gender, height, weight, levelOfActiveness, goal);
 
 }
+
+//Check If User Already Exists
 bool CheckIfUserExists(string username, string password)
 {
 	bool exists = false;
