@@ -54,7 +54,7 @@ void RegisterOrLogIn(vector<vector<string>>& users);
 void LogInWindow();
 
 //1.2 - Register Window
-void RegisterWindow();
+void RegisterWindow(vector<vector<string>>& users);
 
 //Create Profile
 vector<string> CreateProfile(string username, string password, int age, bool gender, double height, double weight, int levelOfActiveness, int goal, vector<vector<string>>& users);
@@ -356,13 +356,13 @@ vector<string> CreateProfile(string username,string password,int age,bool gender
 }
 
 //Register Window
-void RegisterWindow()
+void RegisterWindow(vector<vector<string>>& users)
 {
 	cout << "- - - Registration Form - - -" << endl << endl;
 
 	//User input and checking if username is unique to continue the register proccess
 	cout << "- - - Username And Password - - -" << endl;	
-	string username = GetUsername(false);
+	string username = GetUsername(users,false);
 	string password = GetPassword();
 	//User input about physical parameters
 	cout << "- - - Parameters - - -"<<endl;
@@ -376,7 +376,9 @@ void RegisterWindow()
 	//Type Of Account
 	int typeOfAccount = GetTypeOfAccount();
 
-	CreateProfile(username, password, age, gender, height, weight, levelOfActiveness, goal);
+	vector<string> account=CreateProfile(username, password, age, gender, height, weight, levelOfActiveness, goal,users);
+	users.push_back(account);
+	LoadMenu(account);
 }
 
 //Check If User Already Exists
