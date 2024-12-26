@@ -269,6 +269,8 @@ int GetTypeOfAccount()
 	return type;
 }
 
+//Find Account
+vector<string> FindAccount(vector<vector<string>> users, string username);
 //0 Control Function
 void StartProgram()
 {
@@ -328,6 +330,7 @@ void LogInWindow(vector<vector<string>> users)
 		exists = CheckIfUserExists(username, users,password);
 		if (!exists) cout << "Invalid password!"<<endl;
 	} while (!exists);
+	vector<string> account = FindAccount(users, username);
 }
 
 //Create profile
@@ -396,3 +399,15 @@ bool CheckIfUserExists(string username, vector<vector<string>> users, string pas
 		}
 	}
 	return existMessage;
+}
+
+//Find Account
+vector<string> FindAccount(vector<vector<string>> users, string username)
+{
+	for (int i = 0; i < users.size(); i++)
+	{
+		if (users[i][0] == username) return users[i];
+	}
+	vector<string> user = {};
+	return user;
+}
