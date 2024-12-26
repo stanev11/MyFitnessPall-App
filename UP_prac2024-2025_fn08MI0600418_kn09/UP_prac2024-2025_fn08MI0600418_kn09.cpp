@@ -19,6 +19,34 @@
 #include <string>
 using namespace std;
 
+//Fill Vector With Users
+void FillUsers(vector<vector<string>>& users)
+{
+	string fileText;
+	/*string fileUsername, filePassword;*/
+	string currentData;
+	//Read From The Users Info File
+	ifstream userInfo("usersInfo.txt");
+	//Looping through the info
+	vector<string> currentUser;
+	while (getline(userInfo, fileText))
+	{
+		currentUser={};
+		int startIndex = 0;
+		while (true)
+		{
+			size_t index = fileText.find(' ',startIndex);
+			currentData = fileText.substr(startIndex,index-startIndex);
+			startIndex = index + 1;
+
+			currentUser.push_back(currentData);
+			if (index==-1) break;
+		}
+		users.push_back(currentUser);
+	}
+	userInfo.close();
+}
+
 //1 - Register or log-in window
 void RegisterOrLogIn();
 
