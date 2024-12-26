@@ -272,8 +272,11 @@ int GetTypeOfAccount()
 //0 Control Function
 void StartProgram()
 {
+	vector<vector<string>> users;
+	FillUsers(users);
 	//1 - Register or log-in window
-	RegisterOrLogIn();
+	RegisterOrLogIn(users);
+	//2 - Program Menu
 }
 
 int main()
