@@ -30,9 +30,11 @@ void CreateProfile(string username, string password, int age, bool gender, doubl
 
 //Checking if a user has profile
 bool CheckIfUserExists(string username);
+ 
+//1.3 - Log Out
+void LogOut();
 
 // - - - Small Functions To Get Parameters - - -
-
 //Get Unique Username
 string GetUsername()
 {
@@ -265,7 +267,6 @@ void RegisterOrLogIn()
 			cin.ignore();
 			cout << "Invalid choice!" << endl;
 		}
-		
 		else if (option == 1)
 		{
 			LogInWindow();
@@ -333,4 +334,11 @@ bool CheckIfUserExists(string username)
 	}
 	ReadUserInfo.close();
 	return existMessage;
+}
+
+//Log out
+void LogOut()
+{
+	cout << "Goodbye!";
+	exit(1);
 }
