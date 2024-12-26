@@ -246,7 +246,6 @@ void StartProgram()
 {
 	//1 - Register or log-in window
 	RegisterOrLogIn();
-
 }
 
 int main()
@@ -300,7 +299,6 @@ void LogInWindow()
 	} while (!exists);
 	cout << "- Welcome Back, " << username << " ! -"<<endl;
 
-	}
 }
 
 //Create profile
@@ -321,7 +319,7 @@ void RegisterWindow()
 
 	//User input and checking if username is unique to continue the register proccess
 	cout << "- - - Username And Password - - -" << endl;	
-	string username = GetUsername();
+	string username = GetUsername(false);
 	string password = GetPassword();
 	//User input about physical parameters
 	cout << "- - - Parameters - - -"<<endl;
