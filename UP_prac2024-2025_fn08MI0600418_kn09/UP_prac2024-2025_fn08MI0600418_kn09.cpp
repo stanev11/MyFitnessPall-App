@@ -48,7 +48,7 @@ void FillUsers(vector<vector<string>>& users)
 }
 
 //1 - Register or log-in window
-void RegisterOrLogIn();
+void RegisterOrLogIn(vector<vector<string>>& users);
 
 //1.1 - Log-in Window
 void LogInWindow();
@@ -284,7 +284,7 @@ int main()
 	StartProgram();
 }
 //Register or log-in window
-void RegisterOrLogIn()
+void RegisterOrLogIn(vector<vector<string>>& users)
 {
 	cout << "- - - Welcome to myfitnesspal! - - -" << endl << endl;
 	do
@@ -304,12 +304,12 @@ void RegisterOrLogIn()
 		
 		else if (option == 1)
 		{
-			LogInWindow();
+			LogInWindow(users);
 			break;
 		}
 		else
 		{
-			RegisterWindow();
+			RegisterWindow(users);
 			break;
 		}
 	} while (true);
