@@ -54,6 +54,7 @@ int GetAge()
 	} while (true);
 	return age;
 }
+
 //Get Gender Of User
 bool GetGender()
 {
@@ -73,6 +74,7 @@ bool GetGender()
 		else if (gender == 1) return 1;
 	} while (true);
 }
+
 //Get Height Of User
 double GetHeight()
 {
@@ -94,6 +96,7 @@ double GetHeight()
 	} while (true);
 	return height;
 }
+
 //Get Weight
 double GetWeight()
 {
@@ -115,6 +118,7 @@ double GetWeight()
 	} while (true);
 	return weight;
 }
+
 //Get Level Of Activeness
 int GetActiveness()
 {
@@ -140,6 +144,7 @@ int GetActiveness()
 	} while (true);
 	return option;
 }
+
 //Get Goals Of User
 int GetGoal()
 {
@@ -164,6 +169,7 @@ int GetGoal()
 	} while (true);
 	return goal;
 }
+
 //Get Type Of Account
 int GetTypeOfAccount()
 {
@@ -186,6 +192,7 @@ int GetTypeOfAccount()
 	} while (true);
 	return type;
 }
+
 int main()
 {
 	//1 - Register or log-in window
@@ -209,6 +216,7 @@ void RegisterOrLogIn()
 			cin.ignore();
 			cout << "Invalid choice!" << endl;
 		}
+		
 		else if (option == 1)
 		{
 			LogInWindow();
@@ -269,7 +277,8 @@ bool CheckIfUserExists(string username, string password)
 	{
 		int lenOfUsername = fileText.find(' ');
 		fileUsername = fileText.substr(0, lenOfUsername);
-		filePassword = fileText.substr(lenOfUsername + 1);
+		int lenOfPassword = fileText.find(' ', lenOfUsername + 1)-lenOfUsername-1;
+		filePassword = fileText.substr(lenOfUsername + 1,lenOfPassword);
 		if (username == fileUsername)
 		{
 			cout << "This username is already in use! Please choose another one!"<<endl;
