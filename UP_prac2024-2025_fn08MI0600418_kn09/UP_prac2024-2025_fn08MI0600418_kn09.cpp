@@ -25,6 +25,8 @@ void RegisterOrLogIn();
 //1.2 - Register Window
 void RegisterWindow();
 
+//Create Profile
+void CreateProfile(string username, string password, int age, bool gender, double height, double weight, int levelOfActiveness, int goal);
 //Checking if a user has profile
 bool CheckIfUserExists(string username, string password);
 
@@ -228,6 +230,15 @@ void RegisterOrLogIn()
 			break;
 		}
 		else
+void CreateProfile(string username,string password,int age,bool gender,double height,double weight,int levelOfActiveness,int goal)
+{
+	ofstream WriteInFile("usersInfo.txt",ios::app);
+	string user = username + " " + password + " " + to_string(age) + " " + to_string(gender)
+		+ " " + to_string(height) + " " + to_string(weight) + " " + to_string(levelOfActiveness) + " " + to_string(goal);
+	WriteInFile << user << endl;
+	WriteInFile.close();
+	cout << "- Successfully created a profile! -";
+}
 void RegisterWindow()
 {
 	cout << "- - - Registration Form - - -" << endl << endl;
@@ -263,6 +274,8 @@ void RegisterWindow()
 
 	//Type Of Account
 	int typeOfAccount = GetTypeOfAccount();
+
+	CreateProfile(username, password, age, gender, height, weight, levelOfActiveness, goal);
 
 }
 bool CheckIfUserExists(string username, string password)
