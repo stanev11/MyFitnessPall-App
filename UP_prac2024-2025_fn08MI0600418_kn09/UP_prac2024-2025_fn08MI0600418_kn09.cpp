@@ -32,7 +32,7 @@ void RegisterWindow();
 void CreateProfile(string username, string password, int age, bool gender, double height, double weight, int levelOfActiveness, int goal);
 
 //Checking if a user has profile
-bool CheckIfUserExists(string username);
+bool CheckIfUserExists(string username,string password="");
 
 // - - - Small Functions To Get Parameters - - -
 
@@ -290,13 +290,15 @@ void LogInWindow()
 {
 	cout << "- - - Log In Form - - -" << endl;
 	string username, password;
-	cout << "Username: ";
-	cin >> username;
-	cout << endl << "Password: ";
-	cin >> password;
-	bool exists = CheckIfUserExists(username);
-	if (exists)
+	bool exists;
+	do
 	{
+		username = GetUsername(true);
+		password = GetPassword();
+		exists = CheckIfUserExists(username, password);
+		if (!exists) cout << "Invalid password!"<<endl;
+	} while (!exists);
+	cout << "- Welcome Back, " << username << " ! -"<<endl;
 
 	}
 }
@@ -337,11 +339,11 @@ void RegisterWindow()
 }
 
 //Check If User Already Exists
-bool CheckIfUserExists(string username)
+bool CheckIfUserExists(string username,string password)
 {
 	bool existMessage=0;
 	string fileText;
-	string fileUsername;
+	string fileUsername,filePassword;
 	//Read From The Users Info File
 	ifstream ReadUserInfo("usersInfo.txt");
 	//Looping through the info
@@ -349,10 +351,21 @@ bool CheckIfUserExists(string username)
 	{
 		size_t lenOfUsername = fileText.find(' ');
 		fileUsername = fileText.substr(0, lenOfUsername);
+
 		if (username == fileUsername)
 		{
-			existMessage = 1; 
-			break;
+			existMessage = 1;
+		}
+		else continue;
+		if (password.empty()) break;
+		else
+		{
+			size_t lenOfPassword = fileText.find(' ', lenOfUsername + 1) - lenOfUsername - 1;
+			filePassword = fileText.substr(lenOfUsername + 1, lenOfPassword);
+			if (password != filePassword)
+			{
+				existMessage = 0;
+			}
 		}
 	}
 	ReadUserInfo.close();
