@@ -30,6 +30,9 @@ void StartProgram()
 //1 - Register or log-in window
 void RegisterOrLogIn();
 
+//1.1 - Log-in Window
+void LogInWindow();
+
 //1.2 - Register Window
 void RegisterWindow();
 
@@ -213,7 +216,7 @@ void RegisterOrLogIn()
 	cout << "- - - Welcome to myfitnesspal! - - -" << endl << endl;
 	do
 	{
-		cout << "Please choose 1 or 2" << endl;
+		cout << "Please choose option" << endl;
 		cout << "1. Log in"<<endl;
 		cout << "2. Sign up"<<endl;
 		cout << "Choice: ";
@@ -236,6 +239,24 @@ void RegisterOrLogIn()
 			RegisterWindow();
 			break;
 		}
+	} while (true);
+}
+
+//Log In Window
+void LogInWindow()
+{
+	cout << "- - - Log In Form - - -" << endl;
+	string username, password;
+	cout << "Username: ";
+	cin >> username;
+	cout << endl << "Password: ";
+	cin >> password;
+	bool exists = CheckIfUserExists(username);
+	if (exists)
+	{
+
+	}
+}
 
 //Create profile
 void CreateProfile(string username,string password,int age,bool gender,double height,double weight,int levelOfActiveness,int goal)
