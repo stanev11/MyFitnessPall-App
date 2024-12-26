@@ -37,20 +37,23 @@ bool CheckIfUserExists(string username);
 // - - - Small Functions To Get Parameters - - -
 
 //Get Unique Username
-string GetUsername()
+string GetUsername(bool checkAccount = 0)
 {
 	string username;
+	bool exists = false;
 	do
 	{
 		cout << "Enter username: ";
 		cin >> username;
-		bool exists = CheckIfUserExists(username);
+		exists = CheckIfUserExists(username);	
 		if (!exists)
 		{
-			break;
+			if (!checkAccount) break;
+			cout << "Incorrect username!"<<endl;
 		}
 		else if (exists)
 		{
+			if (checkAccount) break;
 			cout << "This username is already in use! Please choose another one!" << endl;
 		}
 
