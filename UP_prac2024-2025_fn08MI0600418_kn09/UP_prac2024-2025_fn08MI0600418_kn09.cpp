@@ -51,7 +51,7 @@ void FillUsers(vector<vector<string>>& users)
 void RegisterOrLogIn(vector<vector<string>>& users);
 
 //1.1 - Log-in Window
-void LogInWindow();
+void LogInWindow(vector<vector<string>> users);
 
 //1.2 - Register Window
 void RegisterWindow(vector<vector<string>>& users);
@@ -316,20 +316,18 @@ void RegisterOrLogIn(vector<vector<string>>& users)
 }
 
 //Log In Window
-void LogInWindow()
+void LogInWindow(vector<vector<string>> users)
 {
 	cout << "- - - Log In Form - - -" << endl;
 	string username, password;
 	bool exists;
 	do
 	{
-		username = GetUsername(true);
+		username = GetUsername(users,true);
 		password = GetPassword();
-		exists = CheckIfUserExists(username, password);
+		exists = CheckIfUserExists(username, users,password);
 		if (!exists) cout << "Invalid password!"<<endl;
 	} while (!exists);
-	cout << "- Welcome Back, " << username << " ! -"<<endl;
-
 }
 
 //Create profile
