@@ -205,8 +205,6 @@ int GetTypeOfAccount()
 
 int main()
 {
-	//1 - Register or log-in window
-	RegisterOrLogIn();
 	StartProgram();
 }
 //Register or log-in window
@@ -238,7 +236,6 @@ void RegisterOrLogIn()
 			RegisterWindow();
 			break;
 		}
-		else
 
 //Create profile
 void CreateProfile(string username,string password,int age,bool gender,double height,double weight,int levelOfActiveness,int goal)
@@ -274,8 +271,6 @@ void RegisterWindow()
 
 	} while (true);
 
-// Run program: Ctrl + F5 or Debug > Start Without Debugging menu
-// Debug program: F5 or Debug > Start Debugging menu
 	//User input about physical parameters
 	cout << "- - - Parameters - - -"<<endl;
 	unsigned int age = GetAge();
@@ -289,7 +284,6 @@ void RegisterWindow()
 	int typeOfAccount = GetTypeOfAccount();
 
 	CreateProfile(username, password, age, gender, height, weight, levelOfActiveness, goal);
-
 }
 
 //Check If User Already Exists
