@@ -62,7 +62,7 @@ string GetUsername(bool checkAccount = 0)
 }
 
 //Get Password
-string GetPassword()
+string GetPassword(bool checkAccount=0)
 {
 	const int MIN_SIZE = 5;
 	string password;
@@ -71,7 +71,7 @@ string GetPassword()
 		cout << "Enter password: ";
 		cin >> password;
 		cout << endl;
-		if (password.length() < MIN_SIZE) cout << "Too short password! Please try again!";
+		if (password.length() < MIN_SIZE && !checkAccount) cout << "Too short password! Please try again!"<<endl;
 		else break;
 	} while (true);
 	return password;
