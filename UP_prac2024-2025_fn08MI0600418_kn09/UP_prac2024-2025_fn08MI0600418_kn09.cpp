@@ -57,7 +57,7 @@ void LogInWindow();
 void RegisterWindow();
 
 //Create Profile
-void CreateProfile(string username, string password, int age, bool gender, double height, double weight, int levelOfActiveness, int goal);
+vector<string> CreateProfile(string username, string password, int age, bool gender, double height, double weight, int levelOfActiveness, int goal, vector<vector<string>>& users);
 
 //Checking if a user has profile
 bool CheckIfUserExists(string username, vector<vector<string>> users, string password = "");
@@ -333,14 +333,26 @@ void LogInWindow()
 }
 
 //Create profile
-void CreateProfile(string username,string password,int age,bool gender,double height,double weight,int levelOfActiveness,int goal)
+vector<string> CreateProfile(string username,string password,int age,bool gender,double height,double weight,int levelOfActiveness,int goal,vector<vector<string>>& users)
 {
-	ofstream WriteInFile("usersInfo.txt",ios::app);
+	vector<string> account;
+	account.push_back(username);
+	account.push_back(password);
+	account.push_back(to_string(age));
+	account.push_back(to_string(gender));
+	account.push_back(to_string(height));
+	account.push_back(to_string(weight));
+	account.push_back(to_string(levelOfActiveness));
+	account.push_back(to_string(goal));
+
+	/*ofstream WriteInFile("usersInfo.txt",ios::app);
 	string user = username + " " + password + " " + to_string(age) + " " + to_string(gender)
 		+ " " + to_string(height) + " " + to_string(weight) + " " + to_string(levelOfActiveness) + " " + to_string(goal);
 	WriteInFile << user << endl;
-	WriteInFile.close();
+	WriteInFile.close();*/
+
 	cout << "- Successfully created a profile! -"<<endl;
+	return account;
 }
 
 //Register Window
