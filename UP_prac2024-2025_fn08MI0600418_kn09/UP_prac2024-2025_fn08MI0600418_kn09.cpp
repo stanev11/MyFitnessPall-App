@@ -19,14 +19,6 @@
 #include <string>
 using namespace std;
 
-//0 Control Function
-void StartProgram()
-{
-	//1 - Register or log-in window
-	RegisterOrLogIn();
-
-}
-
 //1 - Register or log-in window
 void RegisterOrLogIn();
 
@@ -38,10 +30,50 @@ void RegisterWindow();
 
 //Create Profile
 void CreateProfile(string username, string password, int age, bool gender, double height, double weight, int levelOfActiveness, int goal);
+
 //Checking if a user has profile
 bool CheckIfUserExists(string username);
 
 // - - - Small Functions To Get Parameters - - -
+
+//Get Unique Username
+string GetUsername()
+{
+	string username;
+	do
+	{
+		cout << "Enter username: ";
+		cin >> username;
+		bool exists = CheckIfUserExists(username);
+		if (!exists)
+		{
+			break;
+		}
+		else if (exists)
+		{
+			cout << "This username is already in use! Please choose another one!" << endl;
+		}
+
+	} while (true);
+	return username;
+}
+
+//Get Password
+string GetPassword()
+{
+	const int MIN_SIZE = 5;
+	string password;
+	do
+	{
+		cout << "Enter password: ";
+		cin >> password;
+		cout << endl;
+		if (password.length() < MIN_SIZE) cout << "Too short password! Please try again!";
+		else break;
+	} while (true);
+	return password;
+}
+
 //Get Age Of User - Min Age 10
 int GetAge()
 {
@@ -274,7 +306,7 @@ void CreateProfile(string username,string password,int age,bool gender,double he
 		+ " " + to_string(height) + " " + to_string(weight) + " " + to_string(levelOfActiveness) + " " + to_string(goal);
 	WriteInFile << user << endl;
 	WriteInFile.close();
-	cout << "- Successfully created a profile! -";
+	cout << "- Successfully created a profile! -"<<endl;
 }
 
 //Register Window
@@ -282,24 +314,10 @@ void RegisterWindow()
 {
 	cout << "- - - Registration Form - - -" << endl << endl;
 
-	//User input and checking if username and password are unique to continue the register proccess
-	cout << "- - - Username And Password - - -" << endl;
-	string username, password;
-	do
-	{
-		cout << "Enter username: ";
-		cin >> username;
-		cout << "Enter password: ";
-		cin >> password;
-		cout << endl;
-		bool exists = CheckIfUserExists(username, password);
-		if(exists == 0)
-		{
-			break;
-		}
-
-	} while (true);
-
+	//User input and checking if username is unique to continue the register proccess
+	cout << "- - - Username And Password - - -" << endl;	
+	string username = GetUsername();
+	string password = GetPassword();
 	//User input about physical parameters
 	cout << "- - - Parameters - - -"<<endl;
 	unsigned int age = GetAge();
@@ -316,39 +334,24 @@ void RegisterWindow()
 }
 
 //Check If User Already Exists
-bool CheckIfUserExists(string username, string password)
 bool CheckIfUserExists(string username)
 {
-	bool exists = false;
 	bool existMessage=0;
 	string fileText;
-	string fileUsername, filePassword;
 	string fileUsername;
 	//Read From The Users Info File
 	ifstream ReadUserInfo("usersInfo.txt");
 	//Looping through the info
 	while (getline(ReadUserInfo, fileText))
 	{
-		int lenOfUsername = fileText.find(' ');
 		size_t lenOfUsername = fileText.find(' ');
 		fileUsername = fileText.substr(0, lenOfUsername);
-		int lenOfPassword = fileText.find(' ', lenOfUsername + 1)-lenOfUsername-1;
-		filePassword = fileText.substr(lenOfUsername + 1,lenOfPassword);
 		if (username == fileUsername)
 		{
-			cout << "This username is already in use! Please choose another one!"<<endl;
-			exists = true;
-			break;
-		}
-		else if (password == filePassword)
-		{
-			cout << "This password is already taken! Please choose another password!"<<endl;
-			exists = true;
 			existMessage = 1; 
 			break;
 		}
 	}
 	ReadUserInfo.close();
-	return exists;
 	return existMessage;
 }
