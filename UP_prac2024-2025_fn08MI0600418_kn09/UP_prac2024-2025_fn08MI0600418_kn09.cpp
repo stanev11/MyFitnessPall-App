@@ -250,6 +250,29 @@ int GetGoal()
 	return goal;
 }
 
+//Get Kilos To Gain Or Lose
+double GetKgToGainOrLose(int goal)
+{
+	const double MAX = 20;
+	const double MIN = 0;
+	double kg;
+	do
+	{
+		cout << "How much kg you want to ";
+		(goal == 1) ? cout<<"lose ? ": cout<<" gain?";
+		cin >> kg;
+		if (cin.fail())
+		{
+			cin.clear();
+			cin.ignore();
+			cout << "Invalid input!";
+		}
+		else if (kg<MIN || kg>MAX) cout << "Please enter less/more kg to lose/maintain!";
+		else break;
+	} while (true);
+	return kg;
+}
+
 //Get Type Of Account
 int GetTypeOfAccount()
 {
@@ -377,7 +400,8 @@ void RegisterWindow(vector<vector<string>>& users)
 	double weight = GetWeight();
 	int levelOfActiveness = GetActiveness();
 	int goal = GetGoal();
-
+	double kgToGainOrLose = (goal==2)? 0 : GetKgToGainOrLose(goal);
+	
 	//Type Of Account
 	int typeOfAccount = GetTypeOfAccount();
 
