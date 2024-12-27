@@ -109,6 +109,7 @@ string GetPassword(bool checkAccount=0)
 int GetAge()
 {
 	const int MIN_AGE = 10;
+	const int MAX_AGE = 100;
 	int age;
 	do
 	{
@@ -121,7 +122,7 @@ int GetAge()
 			cin.ignore();
 			cout << "Invalid input!";
 		}
-		else if (age < MIN_AGE)
+		else if (age < MIN_AGE || age>MAX_AGE)
 		{
 			cout << "Not old enough!";
 		}
@@ -155,6 +156,7 @@ bool GetGender()
 double GetHeight()
 {
 	const double MIN_HEIGHT = 50;
+	const double MAX_HEIGHT = 225;
 	double height;
 	do
 	{
@@ -167,7 +169,7 @@ double GetHeight()
 			cin.ignore();
 			cout << "Invalid input!";
 		}
-		else if (height - MIN_HEIGHT < 0.0000) cout << "Invalid height!";
+		else if (height - MIN_HEIGHT < 0.0000 || height-MAX_HEIGHT > 0.0000) cout << "Invalid height!";
 		else break;
 	} while (true);
 	return height;
@@ -177,6 +179,7 @@ double GetHeight()
 double GetWeight()
 {
 	const double MIN_WEIGHT = 50;
+	const double MAX_WEIGHT = 200;
 	double weight;
 	do
 	{
@@ -189,7 +192,7 @@ double GetWeight()
 			cin.ignore();
 			cout << "Invalid input!";
 		}
-		else if (weight - MIN_WEIGHT < 0.0000) cout << "Invalid weight!";
+		else if (weight - MIN_WEIGHT < 0.0000 || weight - MAX_WEIGHT > 0.0000) cout << "Invalid weight!";
 		else break;
 	} while (true);
 	return weight;
@@ -202,10 +205,11 @@ int GetActiveness()
 	do
 	{
 		cout << "- Level of activeness -" << endl;
-		cout << "1 - Not very active"<<endl;
-		cout << "2 - Slightly Active" << endl;
-		cout << "3 - Active" << endl;
-		cout << "4 - Very Active" << endl;
+		cout << "1 - Not Active" << endl;
+		cout << "2 - Not very active"<<endl;
+		cout << "3 - Slightly Active" << endl;
+		cout << "4 - Active" << endl;
+		cout << "5 - Very Active" << endl;
 		cout << "What is your level of activeness? : ";
 		cin >> option;
 		cout << endl;
@@ -215,7 +219,7 @@ int GetActiveness()
 			cin.ignore();
 			cout << "Invalid input!";
 		}
-		else if (option != 1 && option != 2 && option != 3 && option != 4) cout << "Invalid choice!";
+		else if (option != 1 && option != 2 && option != 3 && option != 4 && option!=5) cout << "Invalid choice!";
 		else break;
 	} while (true);
 	return option;
