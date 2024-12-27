@@ -57,7 +57,7 @@ void LogInWindow(vector<vector<string>> users);
 void RegisterWindow(vector<vector<string>>& users);
 
 //Create Profile
-vector<string> CreateProfile(string username, string password, int age, bool gender, double height, double weight, int levelOfActiveness, int goal, vector<vector<string>>& users);
+vector<string> CreateProfile(string username, string password, int age, bool gender, double height, double weight, int levelOfActiveness, int goal, double kgToGainOrLose, vector<vector<string>>& users);
 
 //Checking if a user has profile
 bool CheckIfUserExists(string username, vector<vector<string>> users, string password = "");
@@ -362,6 +362,7 @@ void LogInWindow(vector<vector<string>> users)
 
 //Create profile
 vector<string> CreateProfile(string username,string password,int age,bool gender,double height,double weight,int levelOfActiveness,int goal,vector<vector<string>>& users)
+vector<string> CreateProfile(string username,string password,int age,bool gender,double height,double weight,int levelOfActiveness,int goal,double kgToGainOrLose,vector<vector<string>>& users)
 {
 	vector<string> account;
 	account.push_back(username);
@@ -373,11 +374,11 @@ vector<string> CreateProfile(string username,string password,int age,bool gender
 	account.push_back(to_string(levelOfActiveness));
 	account.push_back(to_string(goal));
 
-	/*ofstream WriteInFile("usersInfo.txt",ios::app);
+	ofstream WriteInFile("usersInfo.txt",ios::app);
 	string user = username + " " + password + " " + to_string(age) + " " + to_string(gender)
-		+ " " + to_string(height) + " " + to_string(weight) + " " + to_string(levelOfActiveness) + " " + to_string(goal);
+		+ " " + to_string(height) + " " + to_string(weight) + " " + to_string(levelOfActiveness) + " " + to_string(goal)+" "+to_string(kgToGainOrLose);
 	WriteInFile << user << endl;
-	WriteInFile.close();*/
+	WriteInFile.close();
 
 	cout << "- Successfully created a profile! -"<<endl;
 	return account;
@@ -405,7 +406,7 @@ void RegisterWindow(vector<vector<string>>& users)
 	//Type Of Account
 	int typeOfAccount = GetTypeOfAccount();
 
-	vector<string> account=CreateProfile(username, password, age, gender, height, weight, levelOfActiveness, goal,users);
+	vector<string> account=CreateProfile(username, password, age, gender, height, weight, levelOfActiveness, goal,kgToGainOrLose,users);
 	users.push_back(account);
 	LoadMenu(account);
 }
