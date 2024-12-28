@@ -124,7 +124,7 @@ int GetAge()
 		}
 		else if (age < MIN_AGE || age>MAX_AGE)
 		{
-			cout << "Not old enough!";
+			cout << "Please enter age in between 10 and 100!";
 		}
 		else break;
 		cout << endl;
@@ -260,6 +260,7 @@ double GetKgToGainOrLose(int goal)
 	{
 		cout << "How much kg you want to ";
 		(goal == 1) ? cout<<"lose ? ": cout<<" gain?";
+		cout << endl;
 		cin >> kg;
 		if (cin.fail())
 		{
@@ -267,7 +268,7 @@ double GetKgToGainOrLose(int goal)
 			cin.ignore();
 			cout << "Invalid input!";
 		}
-		else if (kg<MIN || kg>MAX) cout << "Please enter less/more kg to lose/maintain!";
+		else if (kg<MIN || kg>MAX) cout << "Please enter kilos between 0 and 20!"<<endl;
 		else break;
 	} while (true);
 	return kg;
@@ -306,6 +307,13 @@ void StartProgram()
 	//1 - Register or log-in window
 	RegisterOrLogIn(users);
 	//2 - Program Menu
+
+}
+//Exit Program
+void ExitProgram()
+{
+	cout << "Have a nice day!";
+	exit(1);
 }
 
 int main()
@@ -321,22 +329,23 @@ void RegisterOrLogIn(vector<vector<string>>& users)
 		cout << "Please choose option" << endl;
 		cout << "1. Log in"<<endl;
 		cout << "2. Sign up"<<endl;
+		cout << "3. Exit" << endl;
 		cout << "Choice: ";
 		int option;
 		cin >> option;
-		if (cin.fail() || (option!=1 && option!=2))
+		if (cin.fail() || (option != 1 && option != 2 && option != 3))
 		{
 			cin.clear();
 			cin.ignore();
 			cout << "Invalid choice!" << endl;
 		}
-		
+
 		else if (option == 1)
 		{
 			LogInWindow(users);
 			break;
 		}
-		else
+		else if (option == 2)
 		{
 			RegisterWindow(users);
 			break;
