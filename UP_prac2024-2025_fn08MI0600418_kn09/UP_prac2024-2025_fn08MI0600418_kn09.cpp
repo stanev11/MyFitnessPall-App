@@ -87,6 +87,8 @@ double CalorieDeficitOrSurplus(int goal,double kgToGainOrLose);
 //Calculate Macronutrients
 void CalculateMacros(int goal,double dailyCal,double macros[3]);
 
+//Create Food Plan
+vector<string> CreateMealPlan(string username, int typeOfAccount, double dailyCal);
 
 //Checking if a user has profile
 bool CheckIfUserExists(string username, vector<vector<string>> users, string password = "");
@@ -430,6 +432,22 @@ vector<string> CreateProfile(string username,string password,int age,bool gender
 	return account;
 }
 
+//Create Meal Plan
+vector<string> CreateMealPlan(string username, int typeOfAccount, double dailyCal)
+{
+	vector<string> mealPlan;
+	mealPlan.push_back(username);
+	mealPlan.push_back(to_string(dailyCal));
+	mealPlan.push_back(to_string(typeOfAccount));
+
+	ofstream mealTrackerFile("mealsTracker.txt", ios::app);
+	string infoToAppend = username + "\n" + to_string(dailyCal) + "\n" + to_string(typeOfAccount);
+	mealTrackerFile << infoToAppend << endl<<"*"<<endl;
+	mealTrackerFile.close();
+
+	cout << "- Successfully created meal plan, based on your data! -" << endl;
+	return mealPlan;
+}
 //Register Window
 void RegisterWindow(vector<vector<string>>& users, vector<vector<string>> meals)
 {
