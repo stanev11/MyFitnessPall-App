@@ -60,7 +60,8 @@ void LogInWindow(vector<vector<string>> users);
 void RegisterWindow(vector<vector<string>>& users);
 
 //Create Profile
-vector<string> CreateProfile(string username, string password, int age, bool gender, double height, double weight, int levelOfActiveness, int goal, double kgToGainOrLose, vector<vector<string>>& users);
+vector<string> CreateProfile(string username, string password, int age, bool gender, double height, double weight, int levelOfActiveness, int goal, double kgToGainOrLose,int typeOfAccount);
+
 //Calculate Recommended Calorie Intake A Day
 double CalculateDailyCalories(int age, bool gender, double height, double weight, int levelOfActiveness, int goal,double kgToGainOrLose);
 double CaloriesForMaintenance(bool gender,int age,double weight,double height,int levelOfActiveness);
@@ -384,8 +385,7 @@ void LogInWindow(vector<vector<string>> users)
 }
 
 //Create profile
-vector<string> CreateProfile(string username,string password,int age,bool gender,double height,double weight,int levelOfActiveness,int goal,vector<vector<string>>& users)
-vector<string> CreateProfile(string username,string password,int age,bool gender,double height,double weight,int levelOfActiveness,int goal,double kgToGainOrLose,vector<vector<string>>& users)
+vector<string> CreateProfile(string username,string password,int age,bool gender,double height,double weight,int levelOfActiveness,int goal,double kgToGainOrLose,int typeOfAccount)
 {
 	vector<string> account;
 	account.push_back(username);
@@ -397,11 +397,11 @@ vector<string> CreateProfile(string username,string password,int age,bool gender
 	account.push_back(to_string(levelOfActiveness));
 	account.push_back(to_string(goal));
 
-	ofstream WriteInFile("usersInfo.txt",ios::app);
-	string user = username + " " + password + " " + to_string(age) + " " + to_string(gender)
-		+ " " + to_string(height) + " " + to_string(weight) + " " + to_string(levelOfActiveness) + " " + to_string(goal)+" "+to_string(kgToGainOrLose);
-	WriteInFile << user << endl;
-	WriteInFile.close();
+	ofstream WriteInFileUsersInfo("usersInfo.txt",ios::app);
+	string user = username + "," + password + "," + to_string(age) + "," + to_string(gender)
+		+ "," + to_string(height) + "," + to_string(weight) + "," + to_string(levelOfActiveness) + "," + to_string(goal)+","+to_string(kgToGainOrLose);
+	WriteInFileUsersInfo << user << endl;
+	WriteInFileUsersInfo.close();
 
 	cout << "- Successfully created a profile! -"<<endl;
 	return account;
