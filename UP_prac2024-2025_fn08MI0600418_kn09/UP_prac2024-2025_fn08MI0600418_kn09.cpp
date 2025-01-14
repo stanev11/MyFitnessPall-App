@@ -51,13 +51,13 @@ void FillUsers(vector<vector<string>>& users)
 }
 
 //1 - Register or log-in window
-void RegisterOrLogIn(vector<vector<string>>& users);
+void RegisterOrLogIn(vector<vector<string>>& users, vector<vector<string>>& meals);
 
 //1.1 - Log-in Window
-void LogInWindow(vector<vector<string>> users);
+void LogInWindow(vector<vector<string>> users,  vector<vector<string>> meals);
 
 //1.2 - Register Window
-void RegisterWindow(vector<vector<string>>& users);
+void RegisterWindow(vector<vector<string>>& users, vector<vector<string>> meals);
 
 //Create Profile
 vector<string> CreateProfile(string username, string password, int age, bool gender, double height, double weight, int levelOfActiveness, int goal, double kgToGainOrLose,int typeOfAccount);
@@ -318,10 +318,12 @@ vector<string> FindAccount(vector<vector<string>> users, string username);
 void StartProgram()
 {
 	vector<vector<string>> users;
+	vector<vector<string>> meals;
 	FillUsers(users);
 	//1 - Register or log-in window
-	RegisterOrLogIn(users);
-	//2 - Program Menu
+	RegisterOrLogIn(users,meals);
+
+	//2 -Load Menu
 
 }
 //Exit Program
@@ -336,7 +338,7 @@ int main()
 	StartProgram();
 }
 //Register or log-in window
-void RegisterOrLogIn(vector<vector<string>>& users)
+void RegisterOrLogIn(vector<vector<string>>& users, vector<vector<string>>& meals)
 {
 	cout << "- - - Welcome to myfitnesspal! - - -" << endl << endl;
 	do
@@ -357,19 +359,19 @@ void RegisterOrLogIn(vector<vector<string>>& users)
 
 		else if (option == 1)
 		{
-			LogInWindow(users);
+			LogInWindow(users,meals);
 			break;
 		}
 		else if (option == 2)
 		{
-			RegisterWindow(users);
+			RegisterWindow(users,meals);
 			break;
 		}
 	} while (true);
 }
 
 //Log In Window
-void LogInWindow(vector<vector<string>> users)
+void LogInWindow(vector<vector<string>> users,vector<vector<string>> meals)
 {
 	cout << "- - - Log In Form - - -" << endl;
 	string username, password;
@@ -408,7 +410,7 @@ vector<string> CreateProfile(string username,string password,int age,bool gender
 }
 
 //Register Window
-void RegisterWindow(vector<vector<string>>& users)
+void RegisterWindow(vector<vector<string>>& users, vector<vector<string>> meals)
 {
 	cout << "- - - Registration Form - - -" << endl << endl;
 
@@ -429,7 +431,8 @@ void RegisterWindow(vector<vector<string>>& users)
 	//Type Of Account
 	int typeOfAccount = GetTypeOfAccount();
 
-	vector<string> account=CreateProfile(username, password, age, gender, height, weight, levelOfActiveness, goal,kgToGainOrLose,users);
+	//Creating the account
+	vector<string> account=CreateProfile(username, password, age, gender, height, weight, levelOfActiveness, goal,kgToGainOrLose,typeOfAccount);
 	users.push_back(account);
 	LoadMenu(account);
 }
@@ -541,3 +544,7 @@ void CalculateMacros(int goal, double dailyCal,double macros[3])
 	carbohydrates /= CPGother;
 	fat /= CPGFat;
 
+	macros[0] = protein;
+	macros[1] = fat;
+	macros[2] = carbohydrates;
+}
