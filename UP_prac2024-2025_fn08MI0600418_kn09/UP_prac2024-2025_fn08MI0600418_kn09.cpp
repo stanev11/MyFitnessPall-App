@@ -473,7 +473,11 @@ void RegisterWindow(vector<vector<string>>& users, vector<vector<string>> meals)
 	//Creating the account
 	vector<string> account=CreateProfile(username, password, age, gender, height, weight, levelOfActiveness, goal,kgToGainOrLose,typeOfAccount);
 	users.push_back(account);
-	LoadMenu(account);
+
+	//Meal plan
+	double dailyCal = CalculateDailyCalories(age, gender, height, weight, levelOfActiveness, goal, kgToGainOrLose);	
+	vector<string> mealPlan = CreateMealPlan(username, typeOfAccount, dailyCal);
+	meals.push_back(mealPlan);
 }
 
 //Check If User Already Exists
