@@ -411,6 +411,7 @@ void LogInWindow(vector<vector<string>> users,vector<vector<string>> meals)
 		if (!exists) cout << "Invalid password!"<<endl;
 	} while (!exists);
 	vector<string> account = FindAccount(users, username);
+	vector<string> mealPlan = FindMealPlan(meals,username);
 }
 
 //Create profile
