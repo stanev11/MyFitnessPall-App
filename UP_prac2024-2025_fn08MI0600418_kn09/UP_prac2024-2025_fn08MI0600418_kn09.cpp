@@ -61,6 +61,14 @@ void RegisterWindow(vector<vector<string>>& users);
 
 //Create Profile
 vector<string> CreateProfile(string username, string password, int age, bool gender, double height, double weight, int levelOfActiveness, int goal, double kgToGainOrLose, vector<vector<string>>& users);
+//Calculate Recommended Calorie Intake A Day
+double CalculateDailyCalories(int age, bool gender, double height, double weight, int levelOfActiveness, int goal,double kgToGainOrLose);
+double CaloriesForMaintenance(bool gender,int age,double weight,double height,int levelOfActiveness);
+double CalorieDeficitOrSurplus(int goal,double kgToGainOrLose);
+
+//Calculate Macronutrients
+void CalculateMacros(int goal,double dailyCal,double macros[3]);
+
 
 //Checking if a user has profile
 bool CheckIfUserExists(string username, vector<vector<string>> users, string password = "");
@@ -455,3 +463,81 @@ vector<string> FindAccount(vector<vector<string>> users, string username)
 	vector<string> user = {};
 	return user;
 }
+//Calculate Recommended Calorie Intake A Day
+double CalculateDailyCalories(int age, bool gender, double height, double weight, int levelOfActiveness, int goal,double kgToGainOrLose)
+{
+	double calForMaintenance = CaloriesForMaintenance(gender, age, weight, height, levelOfActiveness);
+	double calDeficitOrSurplus = CalorieDeficitOrSurplus(goal, kgToGainOrLose);
+	double dailyCalories = calForMaintenance + calDeficitOrSurplus;
+
+	return dailyCalories;
+}
+
+double CaloriesForMaintenance(bool gender,int age, double weight, double height,int levelOfActiveness)
+{
+	double BMR;
+	if (!gender)
+	{
+		const double coeff = 88.362;
+		const double coeffForWeight = 13.397;
+		const double coeffForHeight = 4.799;
+		const double coeffForAge = 5.677;
+		BMR = coeff + coeffForWeight * weight + coeffForHeight * height - coeffForAge * age;
+	}
+	else if (gender) 
+	{
+		const double coeff = 447.593;
+		const double coeffForWeight = 9.247;
+		const double coeffForHeight = 3.098;
+		const double coeffForAge = 4.330;
+		BMR = coeff + coeffForWeight * weight + coeffForHeight * height - coeffForAge * age;
+	}
+	if (levelOfActiveness == 1)  BMR *= 1.2;
+	else if (levelOfActiveness == 2) BMR *= 1.375;
+	else if (levelOfActiveness == 3) BMR *= 1.55;
+	else if (levelOfActiveness == 4) BMR *= 1.725;
+	else BMR *= 1.9;
+
+	return BMR;
+}
+double CalorieDeficitOrSurplus(int goal, double kgToGainOrLose)
+{
+	const double MIN_GOAL = 0.25;
+	const int MIN_CALORIES = 275;
+
+	if (goal == 2) return 0;
+	double calDefOrSur = (kgToGainOrLose / MIN_GOAL) * MIN_CALORIES;
+	return (goal == 1) ? -calDefOrSur : calDefOrSur;
+}
+
+//Calculate Macros
+void CalculateMacros(int goal, double dailyCal,double macros[3])
+{
+	double protein, fat, carbohydrates;
+	//Calculate Macro Ratio
+	if (goal == 1)
+	{
+		protein = 35 * dailyCal / 100;
+		fat = 30 * dailyCal / 100;
+		carbohydrates = 35 * dailyCal / 100;
+	}
+	else if (goal == 2)
+	{
+		protein = 25 * dailyCal / 100;
+		fat = 30 * dailyCal / 100;
+		carbohydrates = 45 * dailyCal / 100;
+	}
+	else
+	{
+		protein = 40 * dailyCal / 100;
+		fat = 25 * dailyCal / 100;
+		carbohydrates = 35 * dailyCal / 100;
+	}
+	//Into grams - CPG means calories per gram
+	const int CPGFat = 9;
+	const int CPGother = 4;
+
+	protein /= CPGother;
+	carbohydrates /= CPGother;
+	fat /= CPGFat;
+
