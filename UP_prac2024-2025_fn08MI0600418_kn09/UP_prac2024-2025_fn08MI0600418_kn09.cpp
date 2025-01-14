@@ -19,7 +19,24 @@
 #include <string>
 using namespace std;
 
-//Fill Vector With Users
+//Fill Vector With Data
+void FillMeals(vector<vector<string>>& meals)
+{
+	ifstream MealTracker("mealsTracker.txt");
+	string currentData;
+	vector<string> currentMealPlan;
+	while (!MealTracker.eof())
+	{
+		currentMealPlan = {};
+		while (getline(MealTracker, currentData))
+		{
+			if (currentData == "*") break;
+			currentMealPlan.push_back(currentData);
+		}
+		meals.push_back(currentMealPlan);
+	}
+	MealTracker.close();
+}
 void FillUsers(vector<vector<string>>& users)
 {
 	string fileText;
@@ -319,7 +336,11 @@ void StartProgram()
 {
 	vector<vector<string>> users;
 	vector<vector<string>> meals;
+
+	//Fill Both Vectors With Data
 	FillUsers(users);
+	FillMeals(meals);
+
 	//1 - Register or log-in window
 	RegisterOrLogIn(users,meals);
 
