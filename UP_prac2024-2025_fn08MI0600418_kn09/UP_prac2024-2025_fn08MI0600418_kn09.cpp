@@ -331,11 +331,25 @@ int GetTypeOfAccount()
 	return type;
 }
 
+//2 - Program Menu
+void LoadMenu(vector<string>& account, vector<string>& meal);
+
 //Find Account
 vector<string> FindAccount(vector<vector<string>> users, string username);
 
 //Find Food Plan
 vector<string> FindMealPlan(vector<vector<string>> meals,string username);
+
+//  - - - Small functions about menu - - -
+void RepeatChar(char ch, int times)
+{
+	while (times != 0)
+	{
+		cout << ch << " ";
+		times--;
+	}
+	cout << endl;
+}
 
 //0 Control Function
 void StartProgram()
@@ -412,6 +426,7 @@ void LogInWindow(vector<vector<string>> users,vector<vector<string>> meals)
 	} while (!exists);
 	vector<string> account = FindAccount(users, username);
 	vector<string> mealPlan = FindMealPlan(meals,username);
+	LoadMenu(account,mealPlan);
 }
 
 //Create profile
@@ -483,6 +498,7 @@ void RegisterWindow(vector<vector<string>>& users, vector<vector<string>> meals)
 	double dailyCal = CalculateDailyCalories(age, gender, height, weight, levelOfActiveness, goal, kgToGainOrLose);	
 	vector<string> mealPlan = CreateMealPlan(username, typeOfAccount, dailyCal);
 	meals.push_back(mealPlan);
+	LoadMenu(account,mealPlan);
 }
 
 //Check If User Already Exists
@@ -525,6 +541,24 @@ vector<string> FindMealPlan(vector<vector<string>> meals,string username)
 	vector<string> mealPlan = {};
 	return mealPlan;
 }
+
+//Load Main Menu
+void LoadMenu(vector<string>& account,vector<string>& meal)
+{
+	if (account.empty())
+	{
+		cout << "Sorry! This account doesn't exist!";
+		return;
+	}
+	string username = account[0];
+	RepeatChar('-', 25);
+	cout << "Hi, " << username << " !" << endl;
+	cout << "How are you doing today!" << endl;
+	RepeatChar('-',25);
+
+	int calGoal=stoi(meal[1]);
+	cout << "Calories Goal: " << calGoal<<endl;
+	RepeatChar('-', 25);
 //Calculate Recommended Calorie Intake A Day
 double CalculateDailyCalories(int age, bool gender, double height, double weight, int levelOfActiveness, int goal,double kgToGainOrLose)
 {
