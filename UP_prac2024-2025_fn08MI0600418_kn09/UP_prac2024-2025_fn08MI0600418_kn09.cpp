@@ -122,7 +122,7 @@ int GetAge()
 		if (cin.fail())
 		{
 			cin.clear();
-			cin.ignore();
+			cin.ignore(1000000,'\n');
 			cout << "Invalid input!";
 		}
 		else if (age < MIN_AGE || age>MAX_AGE)
@@ -147,7 +147,7 @@ bool GetGender()
 		if (cin.fail())
 		{
 			cin.clear();
-			cin.ignore();
+			cin.ignore(1000000, '\n');
 			cout << "Invalid gender choice!";
 		}
 		else if (gender == 0) return 0;
@@ -160,6 +160,7 @@ double GetHeight()
 {
 	const double MIN_HEIGHT = 50;
 	const double MAX_HEIGHT = 225;
+	const double EPSILON = 0.0000000;
 	double height;
 	do
 	{
@@ -169,10 +170,10 @@ double GetHeight()
 		if (cin.fail())
 		{
 			cin.clear();
-			cin.ignore();
+			cin.ignore(1000000, '\n');
 			cout << "Invalid input!";
 		}
-		else if (height - MIN_HEIGHT < 0.0000 || height-MAX_HEIGHT > 0.0000) cout << "Invalid height!";
+		else if (height - MIN_HEIGHT < EPSILON || height-MAX_HEIGHT > EPSILON) cout << "Invalid height!";
 		else break;
 	} while (true);
 	return height;
@@ -182,7 +183,8 @@ double GetHeight()
 double GetWeight()
 {
 	const double MIN_WEIGHT = 50;
-	const double MAX_WEIGHT = 200;
+	const double MAX_WEIGHT = 250;
+	const double EPSILON = 0.0000000;
 	double weight;
 	do
 	{
@@ -192,10 +194,10 @@ double GetWeight()
 		if (cin.fail())
 		{
 			cin.clear();
-			cin.ignore();
+			cin.ignore(1000000, '\n');
 			cout << "Invalid input!";
 		}
-		else if (weight - MIN_WEIGHT < 0.0000 || weight - MAX_WEIGHT > 0.0000) cout << "Invalid weight!";
+		else if (weight - MIN_WEIGHT < EPSILON || weight - MAX_WEIGHT > EPSILON) cout << "Invalid weight!";
 		else break;
 	} while (true);
 	return weight;
@@ -219,10 +221,10 @@ int GetActiveness()
 		if (cin.fail())
 		{
 			cin.clear();
-			cin.ignore();
+			cin.ignore(1000000, '\n');
 			cout << "Invalid input!";
 		}
-		else if (option != 1 && option != 2 && option != 3 && option != 4 && option!=5) cout << "Invalid choice!";
+		else if (option<1 || option>5) cout << "Invalid choice!";
 		else break;
 	} while (true);
 	return option;
@@ -244,10 +246,10 @@ int GetGoal()
 		if (cin.fail())
 		{
 			cin.clear();
-			cin.ignore();
+			cin.ignore(1000000, '\n');
 			cout << "Invalid input!";
 		}
-		else if (goal != 1 && goal != 2 && goal != 3) cout << "Invalid choice!";
+		else if (goal<1 || goal>3) cout << "Invalid choice!";
 		else break;
 	} while (true);
 	return goal;
@@ -256,22 +258,23 @@ int GetGoal()
 //Get Kilos To Gain Or Lose
 double GetKgToGainOrLose(int goal)
 {
-	const double MAX = 20;
+	const double MAX = 10;
 	const double MIN = 0;
+	const double EPSILON = 0.0000000;
 	double kg;
 	do
 	{
 		cout << "How much kg you want to ";
-		(goal == 1) ? cout<<"lose ? ": cout<<" gain?";
-		cout << endl;
+		(goal == 1) ? cout<<"lose": cout<<"gain";
+		cout <<" per week?"<< endl;
 		cin >> kg;
 		if (cin.fail())
 		{
 			cin.clear();
-			cin.ignore();
+			cin.ignore(1000000, '\n');
 			cout << "Invalid input!";
 		}
-		else if (kg<MIN || kg>MAX) cout << "Please enter kilos between 0 and 20!"<<endl;
+		else if (kg-MIN<EPSILON|| kg-MAX>EPSILON) cout << "Please enter kilos between 0 and 10!"<<endl;
 		else break;
 	} while (true);
 	return kg;
@@ -291,7 +294,7 @@ int GetTypeOfAccount()
 		if (cin.fail())
 		{
 			cin.clear();
-			cin.ignore();
+			cin.ignore(1000000, '\n');
 			cout << "Invalid input!";
 		}
 		else if (type != 1 && type != 2) cout << "Invalid choice!";
@@ -339,7 +342,7 @@ void RegisterOrLogIn(vector<vector<string>>& users)
 		if (cin.fail() || (option != 1 && option != 2 && option != 3))
 		{
 			cin.clear();
-			cin.ignore();
+			cin.ignore(100000,'\n');
 			cout << "Invalid choice!" << endl;
 		}
 
