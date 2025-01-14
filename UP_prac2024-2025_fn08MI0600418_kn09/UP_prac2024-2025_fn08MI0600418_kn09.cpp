@@ -333,6 +333,10 @@ int GetTypeOfAccount()
 
 //Find Account
 vector<string> FindAccount(vector<vector<string>> users, string username);
+
+//Find Food Plan
+vector<string> FindMealPlan(vector<vector<string>> meals,string username);
+
 //0 Control Function
 void StartProgram()
 {
@@ -508,6 +512,17 @@ vector<string> FindAccount(vector<vector<string>> users, string username)
 	}
 	vector<string> user = {};
 	return user;
+}
+
+//Find Meal Plan
+vector<string> FindMealPlan(vector<vector<string>> meals,string username)
+{
+	for (int i = 0; i < meals.size(); i++)
+	{
+		if (meals[i][0]== username) return meals[i];
+	}
+	vector<string> mealPlan = {};
+	return mealPlan;
 }
 //Calculate Recommended Calorie Intake A Day
 double CalculateDailyCalories(int age, bool gender, double height, double weight, int levelOfActiveness, int goal,double kgToGainOrLose)
