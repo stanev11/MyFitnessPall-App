@@ -23,28 +23,31 @@ using namespace std;
 void FillUsers(vector<vector<string>>& users)
 {
 	string fileText;
-	/*string fileUsername, filePassword;*/
 	string currentData;
-	//Read From The Users Info File
-	ifstream userInfo("usersInfo.txt");
-	//Looping through the info
 	vector<string> currentUser;
-	while (getline(userInfo, fileText))
+
+	//Open File Stream
+	ifstream UsersInfo("usersInfo.txt");
+	
+	//Looping through the info
+	while (getline(UsersInfo, fileText))
 	{
-		currentUser={};
+		currentUser = {};
 		int startIndex = 0;
 		while (true)
 		{
-			size_t index = fileText.find(' ',startIndex);
-			currentData = fileText.substr(startIndex,index-startIndex);
+			size_t index = fileText.find(',', startIndex);
+			currentData = fileText.substr(startIndex, index - startIndex);
 			startIndex = index + 1;
 
 			currentUser.push_back(currentData);
-			if (index==-1) break;
+			if (index == -1) break;
 		}
 		users.push_back(currentUser);
 	}
-	userInfo.close();
+
+	//Closing File Stream
+	UsersInfo.close();
 }
 
 //1 - Register or log-in window
