@@ -19,23 +19,24 @@
 #include <string>
 using namespace std;
 
-//Fill Vector With Data
-void FillMeals(vector<vector<string>>& meals)
+//Fill Vectors With Data
+void FillPlans(vector<vector<string>>& plans,string filename)
 {
-	ifstream MealTracker("mealsTracker.txt");
+	ifstream MyFile(filename);
 	string currentData;
-	vector<string> currentMealPlan;
-	while (!MealTracker.eof())
+	vector<string> currentPlan;
+	while (!MyFile.eof())
 	{
-		currentMealPlan = {};
-		while (getline(MealTracker, currentData))
+		currentPlan = {};
+		while (getline(MyFile, currentData))
 		{
+			if (currentData == "")continue;
 			if (currentData == "*") break;
-			currentMealPlan.push_back(currentData);
+			currentPlan.push_back(currentData);
 		}
-		meals.push_back(currentMealPlan);
+		plans.push_back(currentPlan);
 	}
-	MealTracker.close();
+	MyFile.close();
 }
 void FillUsers(vector<vector<string>>& users)
 {
@@ -50,7 +51,7 @@ void FillUsers(vector<vector<string>>& users)
 	while (getline(UsersInfo, fileText))
 	{
 		currentUser = {};
-		int startIndex = 0;
+		size_t startIndex = 0;
 		while (true)
 		{
 			size_t index = fileText.find(',', startIndex);
@@ -356,10 +357,14 @@ void StartProgram()
 {
 	vector<vector<string>> users;
 	vector<vector<string>> meals;
+	vector<vector<string>> mealPlans;
+	vector<vector<string>> trainingPlans;
 
 	//Fill Both Vectors With Data
 	FillUsers(users);
 	FillMeals(meals);
+	FillPlans(mealPlans,"mealsTracker.txt");
+	FillPlans(trainingPlans, "trainingsTracker.txt");
 
 	//1 - Register or log-in window
 	RegisterOrLogIn(users,meals);
