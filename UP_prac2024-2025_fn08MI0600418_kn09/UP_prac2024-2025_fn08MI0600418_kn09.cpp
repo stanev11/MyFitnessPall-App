@@ -69,13 +69,13 @@ void FillUsers(vector<vector<string>>& users)
 }
 
 //1 - Register or log-in window
-void RegisterOrLogIn(vector<vector<string>>& users, vector<vector<string>>& meals);
+void RegisterOrLogIn(vector<vector<string>>& users, vector<vector<string>>& meals, vector<vector<string>>& trainings);
 
 //1.1 - Log-in Window
-void LogInWindow(vector<vector<string>> users,  vector<vector<string>> meals);
+void LogInWindow(vector<vector<string>> users, vector<vector<string>>& meals, vector<vector<string>>& trainings);
 
 //1.2 - Register Window
-void RegisterWindow(vector<vector<string>>& users, vector<vector<string>> meals);
+void RegisterWindow(vector<vector<string>>& users, vector<vector<string>>& meals, vector<vector<string>>& trainings);
 
 //Create Profile
 vector<string> CreateProfile(string username, string password, int age, bool gender, double height, double weight, int levelOfActiveness, int goal, double kgToGainOrLose,int typeOfAccount);
@@ -333,7 +333,7 @@ int GetTypeOfAccount()
 }
 
 //2 - Program Menu
-void LoadMenu(vector<string>& account, vector<string>& meal);
+void LoadMenu(vector<string>& account, vector<string>& mealPlan,vector<string>& trainingPlan);
 
 //Find Account
 vector<string> FindAccount(vector<vector<string>> users, string username);
@@ -356,18 +356,16 @@ void RepeatChar(char ch, int times)
 void StartProgram()
 {
 	vector<vector<string>> users;
-	vector<vector<string>> meals;
 	vector<vector<string>> mealPlans;
 	vector<vector<string>> trainingPlans;
 
 	//Fill Both Vectors With Data
 	FillUsers(users);
-	FillMeals(meals);
 	FillPlans(mealPlans,"mealsTracker.txt");
 	FillPlans(trainingPlans, "trainingsTracker.txt");
 
 	//1 - Register or log-in window
-	RegisterOrLogIn(users,meals);
+	RegisterOrLogIn(users,mealPlans,trainingPlans);
 
 	//2 -Load Menu
 
@@ -384,7 +382,7 @@ int main()
 	StartProgram();
 }
 //Register or log-in window
-void RegisterOrLogIn(vector<vector<string>>& users, vector<vector<string>>& meals)
+void RegisterOrLogIn(vector<vector<string>>& users, vector<vector<string>>& meals, vector<vector<string>>& trainings)
 {
 	cout << "- - - Welcome to myfitnesspal! - - -" << endl << endl;
 	do
@@ -405,19 +403,20 @@ void RegisterOrLogIn(vector<vector<string>>& users, vector<vector<string>>& meal
 
 		else if (option == 1)
 		{
-			LogInWindow(users,meals);
+			LogInWindow(users,meals,trainings);
 			break;
 		}
 		else if (option == 2)
 		{
-			RegisterWindow(users,meals);
+			RegisterWindow(users,meals,trainings);
 			break;
 		}
+		else ExitProgram();
 	} while (true);
 }
 
 //Log In Window
-void LogInWindow(vector<vector<string>> users,vector<vector<string>> meals)
+void LogInWindow(vector<vector<string>> users, vector<vector<string>>& meals, vector<vector<string>>& trainings)
 {
 	cout << "- - - Log In Form - - -" << endl;
 	string username, password;
@@ -474,7 +473,7 @@ vector<string> CreateMealPlan(string username, int typeOfAccount, double dailyCa
 	return mealPlan;
 }
 //Register Window
-void RegisterWindow(vector<vector<string>>& users, vector<vector<string>> meals)
+void RegisterWindow(vector<vector<string>>& users, vector<vector<string>>& meals, vector<vector<string>>& trainings)
 {
 	cout << "- - - Registration Form - - -" << endl << endl;
 
