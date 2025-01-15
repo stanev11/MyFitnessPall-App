@@ -91,6 +91,9 @@ void CalculateMacros(int goal,double dailyCal,double macros[3]);
 //Create Food Plan
 vector<string> CreateMealPlan(string username, int typeOfAccount, double dailyCal);
 
+//Create Training Plan
+vector<string> CreateTrainingPlan(string username);
+
 //Checking if a user has profile
 bool CheckIfUserExists(string username, vector<vector<string>> users, string password = "");
 
@@ -456,7 +459,7 @@ vector<string> CreateProfile(string username,string password,int age,bool gender
 	return account;
 }
 
-//Create Meal Plan
+//Create Meal
 vector<string> CreateMealPlan(string username, int typeOfAccount, double dailyCal)
 {
 	vector<string> mealPlan;
@@ -464,14 +467,31 @@ vector<string> CreateMealPlan(string username, int typeOfAccount, double dailyCa
 	mealPlan.push_back(to_string(dailyCal));
 	mealPlan.push_back(to_string(typeOfAccount));
 
-	ofstream mealTrackerFile("mealsTracker.txt", ios::app);
+	ofstream TrackerFile("mealsTracker.txt", ios::app);
 	string infoToAppend = username + "\n" + to_string(dailyCal) + "\n" + to_string(typeOfAccount);
-	mealTrackerFile << infoToAppend << endl<<"*"<<endl;
-	mealTrackerFile.close();
+	TrackerFile << infoToAppend << endl<<"*"<<endl;
+	TrackerFile.close();
 
 	cout << "- Successfully created meal plan, based on your data! -" << endl;
 	return mealPlan;
 }
+
+//Create Training Plan
+vector<string> CreateTrainingPlan(string username)
+{
+	vector<string> trainingPlan;
+	trainingPlan.push_back(username);
+
+	ofstream TrackerFile("trainingsTracker.txt", ios::app);
+	string infoToAppend = username;
+	TrackerFile << infoToAppend << endl << "*" << endl;
+	TrackerFile.close();
+
+	cout << "- Successfully created training plan, based on your data! -" << endl;
+	Sleep(1500); //
+	return trainingPlan;
+}
+
 //Register Window
 void RegisterWindow(vector<vector<string>>& users, vector<vector<string>>& meals, vector<vector<string>>& trainings)
 {
@@ -502,7 +522,12 @@ void RegisterWindow(vector<vector<string>>& users, vector<vector<string>>& meals
 	double dailyCal = CalculateDailyCalories(age, gender, height, weight, levelOfActiveness, goal, kgToGainOrLose);	
 	vector<string> mealPlan = CreateMealPlan(username, typeOfAccount, dailyCal);
 	meals.push_back(mealPlan);
-	LoadMenu(account,mealPlan);
+
+	//Training plan
+	vector<string> trainingPlan = CreateTrainingPlan(username);
+
+	system("cls"); //Not sure if it's allowed to be used
+	LoadMenu(account,mealPlan,trainingPlan);
 }
 
 //Check If User Already Exists
