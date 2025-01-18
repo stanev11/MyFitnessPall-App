@@ -467,6 +467,13 @@ vector<string> CreateProfile(string username,string password,int age,bool gender
 	account.push_back(to_string(goal));
 
 	ofstream WriteInFileUsersInfo("usersInfo.txt",ios::app);
+
+	if (!WriteInFileUsersInfo.is_open())
+	{
+		cout << "Error! Couldn't open file!";
+		return {};
+	}
+
 	string user = username + "," + password + "," + to_string(age) + "," + to_string(gender)
 		+ "," + to_string(height) + "," + to_string(weight) + "," + to_string(levelOfActiveness) + "," + to_string(goal)+","+to_string(kgToGainOrLose);
 	WriteInFileUsersInfo << user << endl;
