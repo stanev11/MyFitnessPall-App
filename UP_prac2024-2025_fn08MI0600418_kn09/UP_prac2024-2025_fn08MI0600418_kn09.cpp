@@ -17,6 +17,7 @@
 #include <fstream>
 #include <vector>
 #include <string>
+#include <ctime>
 using namespace std;
 
 //Global Variables
@@ -110,7 +111,6 @@ double CalorieDeficitOrSurplus(int goal,double kgToGainOrLose);
 void CalculateMacros(int goal,double dailyCal,double macros[3]);
 
 //Create Food Plan
-vector<string> CreatePlan(string username, char* fileName, string descrp, int typeOfAccount=0, double dailyCal=0);
 
 //Checking if a user has profile
 bool CheckIfUserExists(string username, string password = "");
@@ -151,7 +151,6 @@ string GetPassword(bool checkAccount=0)
 	{
 		cout << "Enter password: ";
 		cin >> password;
-		cout << endl;
 		if (password.length() < MIN_SIZE && !checkAccount) cout << "Too short password! Please try again!"<<endl;
 		else break;
 	} while (true);
@@ -168,7 +167,6 @@ int GetAge()
 	{
 		cout << "Age : ";
 		cin >> age;
-		cout << endl;
 		if (cin.fail())
 		{
 			cin.clear();
@@ -193,7 +191,6 @@ bool GetGender()
 	{
 		cout << "Gender (\"0\" for man / \"1\" for woman): ";
 		cin >> gender;
-		cout << endl;
 		if (cin.fail())
 		{
 			cin.clear();
@@ -216,7 +213,6 @@ double GetHeight()
 	{
 		cout << "Height : ";
 		cin >> height;
-		cout << endl;
 		if (cin.fail())
 		{
 			cin.clear();
@@ -232,7 +228,7 @@ double GetHeight()
 //Get Weight
 double GetWeight()
 {
-	const double MIN_WEIGHT = 50;
+	const double MIN_WEIGHT = 30;
 	const double MAX_WEIGHT = 250;
 	const double EPSILON = 0.0000000;
 	double weight;
@@ -240,7 +236,6 @@ double GetWeight()
 	{
 		cout << "Weight : ";
 		cin >> weight;
-		cout << endl;
 		if (cin.fail())
 		{
 			cin.clear();
@@ -267,7 +262,6 @@ int GetActiveness()
 		cout << "5 - Very Active" << endl;
 		cout << "What is your level of activeness? : ";
 		cin >> option;
-		cout << endl;
 		if (cin.fail())
 		{
 			cin.clear();
@@ -292,7 +286,6 @@ int GetGoal()
 		cout << "3 - Gain Weight" << endl;
 		cout << "Choose your goal : ";
 		cin >> goal;
-		cout << endl;
 		if (cin.fail())
 		{
 			cin.clear();
@@ -374,8 +367,12 @@ vector<string> FindAccount(string username);
 //Find Meal/Training Plan
 vector<string> FindPlan(vector<vector<string>> plans, string username);
 
+
+//Show Macronutrients
+void ShowMacros(vector<string> mealPlan);
+
 //Add Meal
-void AddData(string username, vector<string>& plan,string descrp);
+void AddData(vector<string>& plan,string descrp);
 
 //Updating Plan
 void UpdatePlan(vector<vector<string>>& plans, vector<string> plan);
@@ -454,24 +451,33 @@ int GetInputOption()
 }
 
 //Options
-void GetContextMenuOptions()
+void GetContextMenuOptions(int typeOfAcc)
 {
+	int i = 1;
 	RepeatChar('-', 25);
-	cout << "1) Add Meal\n2) Add Training.\n3) Edit Meal For Today.\n4) Edit training for today.\n";
+	cout << i++ << ") Add Meal\n";
+	cout << i++ << ") Add Training.\n";
+	cout << i++ << ") Edit Meal For Today.\n";
+	cout << i++ << ") Edit training for today.\n"; 
 	RepeatChar('-', 25);
-	cout << "5) Get Report For Specific Date\n6) Edit profile\n7) Log Out\n8) Exit Program\n";
+	cout << i++ << ") Get Report For Specific Date\n";
+	cout << i++ << ") Edit profile\n";
+	cout << i++ << ") Log Out\n";
+	cout << i++ << ") Exit Program\n";
+	RepeatChar('-', 25);
 	cout << "You can choose one of these options.\n";
 }
 
 //Main Func For Bottom Menu Options
 void BotttomMenuOptions(vector<string>& account, vector<string>& mealPlan, vector<string>& trainingPlan)
 {
-	GetContextMenuOptions();
+	int typeOfAcc = stoi(mealPlan[2]);
+	GetContextMenuOptions(typeOfAcc);
 	int n=GetInputOption();
 	string username = account[0];
 	if (n == 1) //Add Meal
 	{
-		AddData(username, mealPlan,"food");
+		AddData(mealPlan,"food");
 	}
 	else if (n == 2) //Add Training
 	{
@@ -528,7 +534,7 @@ double GetCals()
 }
 
 //Add Meal
-void AddData(string username, vector<string>& plan,string descrp)
+void AddData(vector<string>& plan,string descrp)
 {
 	string name=GetName(descrp);
 	double cals = GetCals();
@@ -655,7 +661,7 @@ vector<string> CreateProfile(string username,string password,int age,bool gender
 }
 
 //Create Meal
-vector<string> CreatePlan(string username,char* fileName,string descrp, int typeOfAccount, double dailyCal)
+vector<string> CreatePlan(string username, char* fileName, string descrp, int typeOfAccount, double dailyCal, double macros[])
 {
 	vector<string> plan;
 	plan.push_back(username);
@@ -713,7 +719,12 @@ void RegisterWindow()
 	//Meal plan
 	char mealsFile[] = "mealsTracker.txt";
 	double dailyCal = CalculateDailyCalories(age, gender, height, weight, levelOfActiveness, goal, kgToGainOrLose);	
-	vector<string> mealPlan = CreatePlan(username,mealsFile,"meal", typeOfAccount, dailyCal);
+	double macros[3];
+	if (typeOfAccount == 2)
+	{
+		CalculateMacros(goal, dailyCal, macros);
+	}
+	vector<string> mealPlan = CreatePlan(username,mealsFile,"meal", typeOfAccount, dailyCal,macros);
 	mealPlans.push_back(mealPlan);
 
 	//Training plan
@@ -802,6 +813,9 @@ void LoadMenu(vector<string>& account, vector<string>& mealPlan,vector<string>& 
 	//Summary of eaten/burnt/goal calories
 	SummaryCals(calGoal, calEaten,burntCals);
 
+	//Show Macros
+	ShowMacros(mealPlan);
+
 	//Bottom Menu Options
 	BotttomMenuOptions(account,mealPlan,trainingPlan);
 }
@@ -887,4 +901,22 @@ void CalculateMacros(int goal, double dailyCal,double macros[3])
 	macros[0] = protein;
 	macros[1] = fat;
 	macros[2] = carbohydrates;
+}
+
+//Show Macronutrients
+void ShowMacros(vector<string> mealPlan)
+{
+	if (stoi(mealPlan[2]) != 2) return;
+	string macros = mealPlan[3];
+	size_t firstDel = macros.find(',');
+	size_t secDel = macros.find_last_of(',');
+	double protein =stod(macros.substr(0, firstDel));
+	double fat = stod(macros.substr(firstDel+1,secDel-firstDel-1));
+	double carbs = stod(macros.substr(secDel + 1));
+
+	RepeatChar('-', 25);
+	cout << "Your daily macronutrients:  \n";
+	cout << "Protein: " << protein<<" grams"<<endl;
+	cout << "Fat: " << fat << " grams"<<endl;
+	cout << "Carbs: " << carbs << " grams" << endl;
 }
