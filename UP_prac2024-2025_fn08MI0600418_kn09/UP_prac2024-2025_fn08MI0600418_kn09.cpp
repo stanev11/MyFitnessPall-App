@@ -428,6 +428,17 @@ void SummaryCals(double calGoal,double calEaten,double burntCals)
 	cout << "Remaining Calories: " << calGoal - calEaten + burntCals << endl;
 }
 
+void GetContextMenuOptions()
+{
+	RepeatChar('-', 25);
+	cout << "1) Add Meal\n2) Add Training.\n3) Edit Meal For Today.\n4) Edit training for today.\n";
+	RepeatChar('-', 25);
+	cout << "5) Get Report For Specific Date\n6) Edit profile\n7) Log Out\n8) Exit Program\n";
+	cout << "You can choose one of these options.\n";
+}
+void BotttomMenuOptions(vector<string>& account, vector<string>& mealPlan, vector<string>& trainingPlan)
+{
+	GetContextMenuOptions();
 //0 Control Function
 void StartProgram()
 {
@@ -685,6 +696,10 @@ void LoadMenu(vector<string>& account, vector<string>& mealPlan,vector<string>& 
 
 	//Summary of eaten/burnt/goal calories
 	SummaryCals(calGoal, calEaten,burntCals);
+
+	//Bottom Menu Options
+	BotttomMenuOptions(account,mealPlan,trainingPlan);
+}
 
 //Calculate Recommended Calorie Intake A Day
 double CalculateDailyCalories(int age, bool gender, double height, double weight, int levelOfActiveness, int goal,double kgToGainOrLose)
