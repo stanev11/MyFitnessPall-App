@@ -99,6 +99,12 @@ void LogInWindow();
 //1.2 - Register Window
 void RegisterWindow();
 
+//Exit Program
+void ExitProgram();
+
+//Log out function
+void LogOut();
+
 //Create Profile
 vector<string> CreateProfile(string username, string password, int age, bool gender, double height, double weight, int levelOfActiveness, int goal, double kgToGainOrLose,int typeOfAccount);
 
@@ -111,6 +117,7 @@ double CalorieDeficitOrSurplus(int goal,double kgToGainOrLose);
 void CalculateMacros(int goal,double dailyCal,double macros[3]);
 
 //Create Food Plan
+vector<string> CreatePlan(string username, char* fileName, string descrp, int typeOfAccount=0, double dailyCal=0,double macros[]={});
 
 //Checking if a user has profile
 bool CheckIfUserExists(string username, string password = "");
@@ -571,6 +578,15 @@ void ExitProgram()
 	exit(1);
 }
 
+//Log Out
+void LogOut()
+{
+	cout << "- - - Leaving your profile - - -"<<"\n";
+	Sleep(1000); //
+	system("cls"); //
+	RegisterOrLogIn();
+}
+
 int main()
 {
 	StartProgram();
@@ -681,6 +697,7 @@ vector<string> CreatePlan(string username, char* fileName, string descrp, int ty
 
 	string infoToAppend = username;
 	if(descrp=="meal") infoToAppend+="\n" + to_string(dailyCal) + "\n" + to_string(typeOfAccount);
+	if (typeOfAccount == 2 && descrp=="meal") infoToAppend += "\n" + (to_string(macros[0]) + "," + to_string(macros[1]) + "," + to_string(macros[2]));
 	TrackerFile << infoToAppend << endl<<"*"<<endl;
 	TrackerFile.close();
 
