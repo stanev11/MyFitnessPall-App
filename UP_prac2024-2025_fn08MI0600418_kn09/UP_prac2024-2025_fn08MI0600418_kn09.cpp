@@ -30,16 +30,26 @@ void FillPlans(vector<vector<string>>& plans,string filename)
 	ifstream MyFile(filename);
 	string currentData;
 	vector<string> currentPlan;
-	while (!MyFile.eof())
+
+	if (!MyFile.is_open())
 	{
+		cout << "Error! Couldn't open file!";
+		return;
+	}
+
+	while (getline(MyFile, currentData))
+	{
+		if (currentData == "") break;
 		currentPlan = {};
-		while (getline(MyFile, currentData))
+		while (!MyFile.eof() && currentData!="*")
 		{
-			if (currentData == "")continue;
-			if (currentData == "*") break;
-			currentPlan.push_back(currentData);
+			if(currentData!="*") currentPlan.push_back(currentData);
+			getline(MyFile, currentData);
 		}
-		plans.push_back(currentPlan);
+		if (!currentPlan.empty())
+		{
+			plans.push_back(currentPlan);
+		}
 	}
 	MyFile.close();
 }
@@ -51,6 +61,12 @@ void FillUsers(vector<vector<string>>& users)
 
 	//Open File Stream
 	ifstream UsersInfo("usersInfo.txt");
+
+	if (!UsersInfo.is_open())
+	{
+		cout << "Error! Couldn't open file!";
+		return;
+	}
 	
 	//Looping through the info
 	while (getline(UsersInfo, fileText))
