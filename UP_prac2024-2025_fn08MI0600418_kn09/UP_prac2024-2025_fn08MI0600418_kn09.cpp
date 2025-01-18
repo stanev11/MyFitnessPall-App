@@ -469,10 +469,50 @@ void BotttomMenuOptions(vector<string>& account, vector<string>& mealPlan, vecto
 	{
 		AddData(username, mealPlan,"food");
 	}
+//Get Food/Training Name And Calories
+string GetName(string descrp)
+{
+	string name;
+	do
+	{
+		cout << "Enter "<<descrp<<" name: ";
+		cin >> ws; //check that 
+		getline(cin,name);
+		if (name.size() == 0) cout << "Invalid Name!"<<endl;
+	} while (name.size()==0);
+	return name;
+}
+double GetCals()
+{
+	const double MIN_CALS = 0;
+	const double MAX_CALS = 5000;
+	const double EPSILON = 0.00000;
+	double cals;
+	do
+	{
+		cout << "Enter calories: ";
+		cin >> cals;
+		if (cin.fail())
+		{
+			cout << "Invalid Option!" << endl;
+			cin.clear();
+			cin.ignore(10000, '\n');
+		}
+		else if (cals - MIN_CALS > EPSILON && cals - MAX_CALS < EPSILON) break;
+		else cout << "Enter calories between " << MIN_CALS << " and " << MAX_CALS;
+	} while (true);
+	return cals;
+}
+
 //Add Meal
 void AddData(string username, vector<string>& plan,string descrp)
 {
 	string name=GetName(descrp);
+	double cals = GetCals();
+	string date = GetDate();
+
+	string infoToAppend = date + "," + name + "," + to_string(cals);
+	plan.push_back(infoToAppend);
 //0 Control Function
 void StartProgram()
 {
