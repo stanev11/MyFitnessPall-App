@@ -353,6 +353,18 @@ int GetTypeOfAccount()
 	return type;
 }
 
+//Get Today's Date
+string GetDate()
+{
+	const int MAX_SIZE = 1000;
+	char date[MAX_SIZE];
+	time_t t = time(nullptr);
+	tm timePtr[100];
+	localtime_s(timePtr, &t);
+	strftime(date, sizeof(date), "%d.%m.%Y", timePtr);
+	return date;
+}
+
 //2 - Program Menu
 void LoadMenu(vector<string>& account, vector<string>& mealPlan,vector<string>& trainingPlan);
 
@@ -622,6 +634,10 @@ void LoadMenu(vector<string>& account, vector<string>& mealPlan,vector<string>& 
 
 	//Top Menu / Welcome Words
 	WelcomeBackWords(username);
+	
+	//Getting string formatted date of today.
+	string date=GetDate();
+
 //Calculate Recommended Calorie Intake A Day
 double CalculateDailyCalories(int age, bool gender, double height, double weight, int levelOfActiveness, int goal,double kgToGainOrLose)
 {
