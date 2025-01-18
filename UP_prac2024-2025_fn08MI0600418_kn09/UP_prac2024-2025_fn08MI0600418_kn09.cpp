@@ -567,10 +567,46 @@ void AddData(vector<string>& plan,string descrp,int pos)
 	cout << " - - - Added "<<descrp<<" : " << name << " for " << cals << " calories!- -\n-";
 }
 
+//Edit Meal
+void RemoveData(vector<vector<string>>& plans,vector<string>& plan, string name)
+{
+	if (plan.empty())
+	{
+		cout << "A problem occured!";
+		return;
+	}
+	string date = GetDate();
+	string currentDate;
+	string currentName;
+	string currentRecord;
+	for (int i = 0; i < plan.size(); i++)
+	{
+		currentRecord = plan[i];
+		size_t firstDel = currentRecord.find(',');
+		currentDate = currentRecord.substr(0, firstDel);
+		if (currentDate == date)
+		{
+			size_t secDel = currentRecord.find(',', firstDel + 1);
+			currentName = currentRecord.substr(firstDel + 1, secDel - firstDel - 1);
+			if (currentName == name)
+			{
+				string cpy = plan[i];
+				plan.erase(plan.begin()+i);
+				UpdatePlans(plans, plan);
+				cout << "- - -Successfully Deleted Record : " << cpy<<" - - -\n";
+				return;
+			}
+		}
+	}
+	cout << "Couldn't find this record!";
+}
 void EditOrDeleteData(vector<vector<string>>& plans,vector<string>& plan,string descrp)
 {
 	RepeatChar('-', 20);
 	cout << "Choose to: \n" << "1) Delete "<<descrp<<"\n2) Edit " << descrp<<endl;
+	int n = GetInputOption(1, 2);
+	string name = GetName(descrp);
+	if (n == 1) RemoveData(plans,plan, name);
 }
 
 //0 Control Function
