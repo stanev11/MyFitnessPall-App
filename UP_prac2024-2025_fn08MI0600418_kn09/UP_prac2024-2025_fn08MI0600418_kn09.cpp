@@ -417,6 +417,17 @@ void DisplayPlans(vector<string> plan, string date, double& cals,string descrp)
 		}
 	}
 }
+
+//Summary Goal/Burnt/Eaten Calories
+void SummaryCals(double calGoal,double calEaten,double burntCals)
+{
+	RepeatChar('-', 25);
+	cout << "Calories Goal: " << calGoal << endl;
+	cout << "Calories eaten: " << calEaten << endl;
+	cout << "Calories burnt: " << burntCals << endl;
+	cout << "Remaining Calories: " << calGoal - calEaten + burntCals << endl;
+}
+
 //0 Control Function
 void StartProgram()
 {
@@ -671,6 +682,10 @@ void LoadMenu(vector<string>& account, vector<string>& mealPlan,vector<string>& 
 
 	//Display Trainings
 	DisplayPlans(trainingPlan, date, burntCals,"Trainings");
+
+	//Summary of eaten/burnt/goal calories
+	SummaryCals(calGoal, calEaten,burntCals);
+
 //Calculate Recommended Calorie Intake A Day
 double CalculateDailyCalories(int age, bool gender, double height, double weight, int levelOfActiveness, int goal,double kgToGainOrLose)
 {
