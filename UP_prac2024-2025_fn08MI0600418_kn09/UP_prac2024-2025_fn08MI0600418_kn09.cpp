@@ -110,10 +110,7 @@ double CalorieDeficitOrSurplus(int goal,double kgToGainOrLose);
 void CalculateMacros(int goal,double dailyCal,double macros[3]);
 
 //Create Food Plan
-vector<string> CreateMealPlan(string username, int typeOfAccount, double dailyCal);
-
-//Create Training Plan
-vector<string> CreateTrainingPlan(string username);
+vector<string> CreatePlan(string username, char* fileName, string descrp, int typeOfAccount=0, double dailyCal=0);
 
 //Checking if a user has profile
 bool CheckIfUserExists(string username, string password = "");
@@ -481,34 +478,30 @@ vector<string> CreateProfile(string username,string password,int age,bool gender
 //Create Meal
 vector<string> CreatePlan(string username,char* fileName,string descrp, int typeOfAccount, double dailyCal)
 {
-	vector<string> mealPlan;
-	mealPlan.push_back(username);
-	mealPlan.push_back(to_string(dailyCal));
-	mealPlan.push_back(to_string(typeOfAccount));
+	vector<string> plan;
+	plan.push_back(username);
+	if (descrp == "meal")
+	{
+		plan.push_back(to_string(dailyCal));
+		plan.push_back(to_string(typeOfAccount));
+	}
 
-	ofstream TrackerFile("mealsTracker.txt", ios::app);
-	string infoToAppend = username + "\n" + to_string(dailyCal) + "\n" + to_string(typeOfAccount);
+	ofstream TrackerFile(fileName, ios::app);
+
+	if (!TrackerFile.is_open())
+	{
+		cout << "Error! Couldn't open file!";
+		return {};
+	}
+
+	string infoToAppend = username;
+	if(descrp=="meal") infoToAppend+="\n" + to_string(dailyCal) + "\n" + to_string(typeOfAccount);
 	TrackerFile << infoToAppend << endl<<"*"<<endl;
 	TrackerFile.close();
 
-	cout << "- Successfully created meal plan, based on your data! -" << endl;
-	return mealPlan;
-}
-
-//Create Training Plan
-vector<string> CreateTrainingPlan(string username)
-{
-	vector<string> trainingPlan;
-	trainingPlan.push_back(username);
-
-	ofstream TrackerFile("trainingsTracker.txt", ios::app);
-	string infoToAppend = username;
-	TrackerFile << infoToAppend << endl << "*" << endl;
-	TrackerFile.close();
-
-	cout << "- Successfully created training plan, based on your data! -" << endl;
+	cout << "- Successfully created "<<descrp<<" plan, based on your data!- " << endl;
 	Sleep(1500); //
-	return trainingPlan;
+	return plan;
 }
 
 //Register Window
@@ -518,8 +511,9 @@ void RegisterWindow()
 
 	//User input and checking if username is unique to continue the register proccess
 	cout << "- - - Username And Password - - -" << endl;	
-	string username = GetUsername(users,false);
+	string username = GetUsername(false);
 	string password = GetPassword();
+
 	//User input about physical parameters
 	cout << "- - - Parameters - - -"<<endl;
 	unsigned int age = GetAge();
@@ -538,12 +532,14 @@ void RegisterWindow()
 	users.push_back(account);
 
 	//Meal plan
+	char mealsFile[] = "mealsTracker.txt";
 	double dailyCal = CalculateDailyCalories(age, gender, height, weight, levelOfActiveness, goal, kgToGainOrLose);	
-	vector<string> mealPlan = CreateMealPlan(username, typeOfAccount, dailyCal);
-	meals.push_back(mealPlan);
+	vector<string> mealPlan = CreatePlan(username,mealsFile,"meal", typeOfAccount, dailyCal);
+	mealPlans.push_back(mealPlan);
 
 	//Training plan
-	vector<string> trainingPlan = CreateTrainingPlan(username);
+	char trainingsFile[] = "trainingsTracker.txt";
+	vector<string> trainingPlan = CreatePlan(username,trainingsFile,"training");
 
 	system("cls"); //Not sure if it's allowed to be used
 	LoadMenu(account,mealPlan,trainingPlan);
@@ -590,14 +586,15 @@ vector<string> FindMealPlan(vector<vector<string>> meals,string username)
 	return mealPlan;
 }
 
-//Load Main Menu
-void LoadMenu(vector<string>& account,vector<string>& meal)
+//Check If Account Is Empty
+bool CheckIfAccountIsEmpty(vector<string>& account)
 {
 	if (account.empty())
 	{
-		cout << "Sorry! This account doesn't exist!";
-		return;
+		cout << "Sorry! This account doesn't exist or a problem occured!";
+		return true;
 	}
+	return false;
 	string username = account[0];
 	RepeatChar('-', 25);
 	cout << "Hi, " << username << " !" << endl;
