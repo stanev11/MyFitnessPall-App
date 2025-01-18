@@ -394,6 +394,29 @@ void WelcomeBackWords(string username)
 	RepeatChar('-', 25);
 }
 
+//Display Trainings/ Meals
+void DisplayPlans(vector<string> plan, string date, double& cals,string descrp)
+{
+	RepeatChar('-', 25);
+	cout << descrp<<" Today" << endl;
+
+	string currentRecord;
+	string currentDate;
+
+	for (int i = 0; i < plan.size(); i++)
+	{
+		currentRecord = plan[i];
+		size_t ind = currentRecord.find(',');
+		currentDate = currentRecord.substr(0, ind);
+		if (currentDate == date)
+		{
+			ind = currentRecord.find_last_of(',');
+			cals += stod(currentRecord.substr(ind + 1));
+			cout << currentRecord << endl;
+			
+		}
+	}
+}
 //0 Control Function
 void StartProgram()
 {
@@ -638,6 +661,16 @@ void LoadMenu(vector<string>& account, vector<string>& mealPlan,vector<string>& 
 	//Getting string formatted date of today.
 	string date=GetDate();
 
+	//Calories
+	double calEaten = 0;
+	double calGoal = stod(mealPlan[1]);
+	double burntCals = 0;
+
+	//Displaying Some Info About Meals For Today
+	DisplayPlans(mealPlan, date, calEaten,"Meals");
+
+	//Display Trainings
+	DisplayPlans(trainingPlan, date, burntCals,"Trainings");
 //Calculate Recommended Calorie Intake A Day
 double CalculateDailyCalories(int age, bool gender, double height, double weight, int levelOfActiveness, int goal,double kgToGainOrLose)
 {
