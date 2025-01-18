@@ -469,6 +469,21 @@ void BotttomMenuOptions(vector<string>& account, vector<string>& mealPlan, vecto
 	{
 		AddData(username, mealPlan,"food");
 	}
+//Updating Plan
+void UpdatePlan(vector<vector<string>>& plans, vector<string> plan)
+{
+	if (plans.empty()) return;
+	for (int i = 0; i < plans.size(); i++)
+	{
+		if (plans[i].empty()) continue;
+		if (plans[i][0] == plan[0])
+		{
+			plans[i] = plan;
+			break;
+		}
+	}
+}
+
 //Get Food/Training Name And Calories
 string GetName(string descrp)
 {
@@ -513,6 +528,13 @@ void AddData(string username, vector<string>& plan,string descrp)
 
 	string infoToAppend = date + "," + name + "," + to_string(cals);
 	plan.push_back(infoToAppend);
+
+	if (descrp == "food") UpdatePlan(mealPlans, plan);
+	else if (descrp == "training") UpdatePlan(trainingPlans, plan);
+
+	cout << " - - - Added "<<descrp<<" : " << name << " for " << cals << " calories!- --";
+}
+
 //0 Control Function
 void StartProgram()
 {
