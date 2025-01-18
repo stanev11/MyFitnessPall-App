@@ -40,11 +40,11 @@ void FillPlans(vector<vector<string>>& plans,string filename)
 
 	while (getline(MyFile, currentData))
 	{
-		if (currentData == "") break;
+		/*if (currentData == "") break;*/
 		currentPlan = {};
 		while (!MyFile.eof() && currentData!="*")
 		{
-			if(currentData!="*") currentPlan.push_back(currentData);
+			if(currentData!="*" && currentData!="") currentPlan.push_back(currentData);
 			getline(MyFile, currentData);
 		}
 		if (!currentPlan.empty())
@@ -439,7 +439,7 @@ void SummaryCals(double calGoal,double calEaten,double burntCals)
 
 //Bottom Menu / Choosing Option
 //Validate User Input Option
-int GetInputOption()
+int GetInputOption(const int MIN,const int MAX)
 {
 	int n;
 	do
@@ -451,7 +451,7 @@ int GetInputOption()
 			cin.ignore(10000, '\n');
 			cout << "Invalid Option!" << endl;
 		}
-		else if (n < 1 || n>8) cout << "Enter number between 1 and 8!"<<endl;
+		else if (n < MIN || n > MAX) cout << "Enter number between "<<MIN<<" and "<<MAX<<" !"<<endl;
 		else break;
 	} while (true);
 	return n;
@@ -480,7 +480,7 @@ void BotttomMenuOptions(vector<string>& account, vector<string>& mealPlan, vecto
 {
 	int typeOfAcc = stoi(mealPlan[2]);
 	GetContextMenuOptions(typeOfAcc);
-	int n=GetInputOption();
+	int n=GetInputOption(1,8);
 	string username = account[0];
 	if (n == 1) //Add Meal
 	{
@@ -488,10 +488,12 @@ void BotttomMenuOptions(vector<string>& account, vector<string>& mealPlan, vecto
 	}
 	else if (n == 2) //Add Training
 	{
-		AddData(username, trainingPlan,"training");
+		AddData(trainingPlan,"training");
 	}
 //Updating Plan
 void UpdatePlan(vector<vector<string>>& plans, vector<string> plan)
+//Updating Plans
+void UpdatePlans(vector<vector<string>>& plans, vector<string> plan)
 {
 	if (plans.empty()) return;
 	for (int i = 0; i < plans.size(); i++)
