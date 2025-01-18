@@ -359,8 +359,8 @@ void LoadMenu(vector<string>& account, vector<string>& mealPlan,vector<string>& 
 //Find Account
 vector<string> FindAccount(string username);
 
-//Find Food Plan
-vector<string> FindMealPlan(vector<vector<string>> meals,string username);
+//Find Meal/Training Plan
+vector<string> FindPlan(vector<vector<string>> plans, string username);
 
 //  - - - Small functions about menu - - -
 void RepeatChar(char ch, int times)
@@ -447,9 +447,10 @@ void LogInWindow()
 		exists = CheckIfUserExists(username,password);
 		if (!exists) cout << "Invalid password!"<<endl;
 	} while (!exists);
-	vector<string> account = FindAccount(users, username);
-	vector<string> mealPlan = FindMealPlan(meals,username);
-	LoadMenu(account,mealPlan);
+
+	vector<string> account = FindAccount(username);
+	vector<string> mealPlan = FindPlan(mealPlans,username);
+	vector<string> trainingPlan = FindPlan(trainingPlans, username);
 }
 
 //Create profile
@@ -575,15 +576,15 @@ vector<string> FindAccount(string username)
 	return user;
 }
 
-//Find Meal Plan
-vector<string> FindMealPlan(vector<vector<string>> meals,string username)
+//Find Meal/Training Plan
+vector<string> FindPlan(vector<vector<string>> plans, string username)
 {
-	for (int i = 0; i < meals.size(); i++)
+	for (int i = 0; i < plans.size(); i++)
 	{
-		if (meals[i][0]== username) return meals[i];
+		if (plans[i][0] == username) return plans[i];
 	}
-	vector<string> mealPlan = {};
-	return mealPlan;
+	vector<string> plan = {};
+	return plan;
 }
 
 //Check If Account Is Empty
