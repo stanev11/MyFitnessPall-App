@@ -373,6 +373,15 @@ void RepeatChar(char ch, int times)
 	cout << endl;
 }
 
+//Welcome Back Words / Top Menu
+void WelcomeBackWords(string username)
+{
+	RepeatChar('-', 25);
+	cout << "Hi, " << username << " !" << endl;
+	cout << "How are you doing today!" << endl;
+	RepeatChar('-', 25);
+}
+
 //0 Control Function
 void StartProgram()
 {
@@ -603,15 +612,16 @@ bool CheckIfAccountIsEmpty(vector<string>& account)
 		return true;
 	}
 	return false;
-	string username = account[0];
-	RepeatChar('-', 25);
-	cout << "Hi, " << username << " !" << endl;
-	cout << "How are you doing today!" << endl;
-	RepeatChar('-',25);
+}
+//Load Main Menu
+void LoadMenu(vector<string>& account, vector<string>& mealPlan,vector<string>& trainingPlan)
+{
+	if (CheckIfAccountIsEmpty(account)) return;
 
-	int calGoal=stoi(meal[1]);
-	cout << "Calories Goal: " << calGoal<<endl;
-	RepeatChar('-', 25);
+	string username = account[0];
+
+	//Top Menu / Welcome Words
+	WelcomeBackWords(username);
 //Calculate Recommended Calorie Intake A Day
 double CalculateDailyCalories(int age, bool gender, double height, double weight, int levelOfActiveness, int goal,double kgToGainOrLose)
 {
