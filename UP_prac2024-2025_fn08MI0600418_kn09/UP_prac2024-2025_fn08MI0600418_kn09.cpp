@@ -375,6 +375,9 @@ vector<string> FindAccount(string username);
 vector<string> FindPlan(vector<vector<string>> plans, string username);
 
 //  - - - Small functions about menu - - -
+//Add Meal
+void AddData(string username, vector<string>& plan,string descrp);
+
 void RepeatChar(char ch, int times)
 {
 	while (times != 0)
@@ -462,6 +465,14 @@ void BotttomMenuOptions(vector<string>& account, vector<string>& mealPlan, vecto
 	GetContextMenuOptions();
 	int n=GetInputOption();
 	string username = account[0];
+	if (n == 1) //Add Meal
+	{
+		AddData(username, mealPlan,"food");
+	}
+//Add Meal
+void AddData(string username, vector<string>& plan,string descrp)
+{
+	string name=GetName(descrp);
 //0 Control Function
 void StartProgram()
 {
