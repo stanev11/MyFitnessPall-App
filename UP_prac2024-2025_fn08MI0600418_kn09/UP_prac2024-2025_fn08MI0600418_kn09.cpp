@@ -428,6 +428,27 @@ void SummaryCals(double calGoal,double calEaten,double burntCals)
 	cout << "Remaining Calories: " << calGoal - calEaten + burntCals << endl;
 }
 
+//Bottom Menu / Choosing Option
+//Validate User Input Option
+int GetInputOption()
+{
+	int n;
+	do
+	{
+		cin >> n;
+		if (cin.fail())
+		{
+			cin.clear();
+			cin.ignore(10000, '\n');
+			cout << "Invalid Option!" << endl;
+		}
+		else if (n < 1 || n>8) cout << "Enter number between 1 and 8!"<<endl;
+		else break;
+	} while (true);
+	return n;
+}
+
+//Options
 void GetContextMenuOptions()
 {
 	RepeatChar('-', 25);
@@ -439,6 +460,8 @@ void GetContextMenuOptions()
 void BotttomMenuOptions(vector<string>& account, vector<string>& mealPlan, vector<string>& trainingPlan)
 {
 	GetContextMenuOptions();
+	int n=GetInputOption();
+	string username = account[0];
 //0 Control Function
 void StartProgram()
 {
