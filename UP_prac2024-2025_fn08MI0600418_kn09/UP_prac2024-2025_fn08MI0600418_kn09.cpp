@@ -374,10 +374,12 @@ vector<string> FindAccount(string username);
 //Find Meal/Training Plan
 vector<string> FindPlan(vector<vector<string>> plans, string username);
 
-//  - - - Small functions about menu - - -
 //Add Meal
 void AddData(string username, vector<string>& plan,string descrp);
 
+//Updating Plan
+void UpdatePlan(vector<vector<string>>& plans, vector<string> plan);
+//  - - - Functions about menu - - -
 void RepeatChar(char ch, int times)
 {
 	while (times != 0)
@@ -460,6 +462,8 @@ void GetContextMenuOptions()
 	cout << "5) Get Report For Specific Date\n6) Edit profile\n7) Log Out\n8) Exit Program\n";
 	cout << "You can choose one of these options.\n";
 }
+
+//Main Func For Bottom Menu Options
 void BotttomMenuOptions(vector<string>& account, vector<string>& mealPlan, vector<string>& trainingPlan)
 {
 	GetContextMenuOptions();
@@ -468,6 +472,10 @@ void BotttomMenuOptions(vector<string>& account, vector<string>& mealPlan, vecto
 	if (n == 1) //Add Meal
 	{
 		AddData(username, mealPlan,"food");
+	}
+	else if (n == 2) //Add Training
+	{
+		AddData(username, trainingPlan,"training");
 	}
 //Updating Plan
 void UpdatePlan(vector<vector<string>>& plans, vector<string> plan)
@@ -613,6 +621,7 @@ void LogInWindow()
 	vector<string> account = FindAccount(username);
 	vector<string> mealPlan = FindPlan(mealPlans,username);
 	vector<string> trainingPlan = FindPlan(trainingPlans, username);
+	LoadMenu(account,mealPlan,trainingPlan);
 }
 
 //Create profile
