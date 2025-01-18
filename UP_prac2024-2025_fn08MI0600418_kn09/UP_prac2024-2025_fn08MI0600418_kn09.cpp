@@ -9,7 +9,7 @@
 //@idnumber 08MI0600418
 //@compiler VC
 //
-//This project is designed for everyone who wants to track his / her daily calories and stuff.
+//This project is designed for everyone who wants to track his / her daily calories and trainings.
 
 
 #include <iostream>
@@ -18,6 +18,11 @@
 #include <vector>
 #include <string>
 using namespace std;
+
+//Global Variables
+vector<vector<string>> users;
+vector<vector<string>> trainingPlans;
+vector<vector<string>> mealPlans;
 
 //Fill Vectors With Data
 void FillPlans(vector<vector<string>>& plans,string filename)
@@ -69,13 +74,13 @@ void FillUsers(vector<vector<string>>& users)
 }
 
 //1 - Register or log-in window
-void RegisterOrLogIn(vector<vector<string>>& users, vector<vector<string>>& meals, vector<vector<string>>& trainings);
+void RegisterOrLogIn();
 
 //1.1 - Log-in Window
-void LogInWindow(vector<vector<string>> users, vector<vector<string>>& meals, vector<vector<string>>& trainings);
+void LogInWindow();
 
 //1.2 - Register Window
-void RegisterWindow(vector<vector<string>>& users, vector<vector<string>>& meals, vector<vector<string>>& trainings);
+void RegisterWindow();
 
 //Create Profile
 vector<string> CreateProfile(string username, string password, int age, bool gender, double height, double weight, int levelOfActiveness, int goal, double kgToGainOrLose,int typeOfAccount);
@@ -95,12 +100,12 @@ vector<string> CreateMealPlan(string username, int typeOfAccount, double dailyCa
 vector<string> CreateTrainingPlan(string username);
 
 //Checking if a user has profile
-bool CheckIfUserExists(string username, vector<vector<string>> users, string password = "");
+bool CheckIfUserExists(string username, string password = "");
 
 // - - - Small Functions To Get Parameters - - -
 
 //Get Unique Username
-string GetUsername(vector<vector<string>> users,bool checkAccount = 0)
+string GetUsername(bool checkAccount = 0)
 {
 	string username;
 	bool exists = false;
@@ -108,7 +113,7 @@ string GetUsername(vector<vector<string>> users,bool checkAccount = 0)
 	{
 		cout << "Enter username: ";
 		cin >> username;
-		exists = CheckIfUserExists(username,users);
+		exists = CheckIfUserExists(username);
 		if (!exists)
 		{
 			if (!checkAccount) break;
@@ -339,7 +344,7 @@ int GetTypeOfAccount()
 void LoadMenu(vector<string>& account, vector<string>& mealPlan,vector<string>& trainingPlan);
 
 //Find Account
-vector<string> FindAccount(vector<vector<string>> users, string username);
+vector<string> FindAccount(string username);
 
 //Find Food Plan
 vector<string> FindMealPlan(vector<vector<string>> meals,string username);
@@ -358,21 +363,18 @@ void RepeatChar(char ch, int times)
 //0 Control Function
 void StartProgram()
 {
-	vector<vector<string>> users;
-	vector<vector<string>> mealPlans;
-	vector<vector<string>> trainingPlans;
-
 	//Fill Both Vectors With Data
 	FillUsers(users);
 	FillPlans(mealPlans,"mealsTracker.txt");
 	FillPlans(trainingPlans, "trainingsTracker.txt");
 
 	//1 - Register or log-in window
-	RegisterOrLogIn(users,mealPlans,trainingPlans);
+	RegisterOrLogIn();
 
 	//2 -Load Menu
 
 }
+
 //Exit Program
 void ExitProgram()
 {
@@ -384,8 +386,9 @@ int main()
 {
 	StartProgram();
 }
+
 //Register or log-in window
-void RegisterOrLogIn(vector<vector<string>>& users, vector<vector<string>>& meals, vector<vector<string>>& trainings)
+void RegisterOrLogIn()
 {
 	cout << "- - - Welcome to myfitnesspal! - - -" << endl << endl;
 	do
@@ -406,12 +409,12 @@ void RegisterOrLogIn(vector<vector<string>>& users, vector<vector<string>>& meal
 
 		else if (option == 1)
 		{
-			LogInWindow(users,meals,trainings);
+			LogInWindow();
 			break;
 		}
 		else if (option == 2)
 		{
-			RegisterWindow(users,meals,trainings);
+			RegisterWindow();
 			break;
 		}
 		else ExitProgram();
@@ -419,16 +422,16 @@ void RegisterOrLogIn(vector<vector<string>>& users, vector<vector<string>>& meal
 }
 
 //Log In Window
-void LogInWindow(vector<vector<string>> users, vector<vector<string>>& meals, vector<vector<string>>& trainings)
+void LogInWindow()
 {
 	cout << "- - - Log In Form - - -" << endl;
 	string username, password;
 	bool exists;
 	do
 	{
-		username = GetUsername(users,true);
+		username = GetUsername(true);
 		password = GetPassword();
-		exists = CheckIfUserExists(username, users,password);
+		exists = CheckIfUserExists(username,password);
 		if (!exists) cout << "Invalid password!"<<endl;
 	} while (!exists);
 	vector<string> account = FindAccount(users, username);
@@ -460,7 +463,7 @@ vector<string> CreateProfile(string username,string password,int age,bool gender
 }
 
 //Create Meal
-vector<string> CreateMealPlan(string username, int typeOfAccount, double dailyCal)
+vector<string> CreatePlan(string username,char* fileName,string descrp, int typeOfAccount, double dailyCal)
 {
 	vector<string> mealPlan;
 	mealPlan.push_back(username);
@@ -493,7 +496,7 @@ vector<string> CreateTrainingPlan(string username)
 }
 
 //Register Window
-void RegisterWindow(vector<vector<string>>& users, vector<vector<string>>& meals, vector<vector<string>>& trainings)
+void RegisterWindow()
 {
 	cout << "- - - Registration Form - - -" << endl << endl;
 
@@ -531,7 +534,7 @@ void RegisterWindow(vector<vector<string>>& users, vector<vector<string>>& meals
 }
 
 //Check If User Already Exists
-bool CheckIfUserExists(string username, vector<vector<string>> users, string password)
+bool CheckIfUserExists(string username, string password)
 {
 	bool existMessage=0;
 	for (int i = 0; i < users.size(); i++)
@@ -550,7 +553,7 @@ bool CheckIfUserExists(string username, vector<vector<string>> users, string pas
 }
 
 //Find Account
-vector<string> FindAccount(vector<vector<string>> users, string username)
+vector<string> FindAccount(string username)
 {
 	for (int i = 0; i < users.size(); i++)
 	{
