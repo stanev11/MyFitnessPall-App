@@ -379,7 +379,7 @@ vector<string> FindPlan(vector<vector<string>> plans, string username);
 void ShowMacros(vector<string> mealPlan);
 
 //Add Meal
-void AddData(vector<string>& plan,string descrp);
+void AddData(vector<string>& plan,string descrp,int pos=-1);
 
 //Updating Plan
 void UpdatePlan(vector<vector<string>>& plans, vector<string> plan);
@@ -492,6 +492,14 @@ void BotttomMenuOptions(vector<string>& account, vector<string>& mealPlan, vecto
 	}
 //Updating Plan
 void UpdatePlan(vector<vector<string>>& plans, vector<string> plan)
+	else if (n == 3)
+	{
+		EditOrDeleteData(mealPlans,mealPlan,"food");
+	}
+	else if (n == 4)
+	{
+		EditOrDeleteData(trainingPlans, trainingPlan, "training");
+	}
 //Updating Plans
 void UpdatePlans(vector<vector<string>>& plans, vector<string> plan)
 {
@@ -543,19 +551,26 @@ double GetCals()
 }
 
 //Add Meal
-void AddData(vector<string>& plan,string descrp)
+void AddData(vector<string>& plan,string descrp,int pos)
 {
 	string name=GetName(descrp);
 	double cals = GetCals();
 	string date = GetDate();
 
 	string infoToAppend = date + "," + name + "," + to_string(cals);
-	plan.push_back(infoToAppend);
+	if (pos == -1) plan.push_back(infoToAppend);
+	else plan[pos] = infoToAppend;
 
-	if (descrp == "food") UpdatePlan(mealPlans, plan);
-	else if (descrp == "training") UpdatePlan(trainingPlans, plan);
+	if (descrp=="food" || descrp=="new food") UpdatePlans(mealPlans, plan);
+	else if (descrp == "training" || descrp=="new training") UpdatePlans(trainingPlans, plan);
 
-	cout << " - - - Added "<<descrp<<" : " << name << " for " << cals << " calories!- --";
+	cout << " - - - Added "<<descrp<<" : " << name << " for " << cals << " calories!- -\n-";
+}
+
+void EditOrDeleteData(vector<vector<string>>& plans,vector<string>& plan,string descrp)
+{
+	RepeatChar('-', 20);
+	cout << "Choose to: \n" << "1) Delete "<<descrp<<"\n2) Edit " << descrp<<endl;
 }
 
 //0 Control Function
