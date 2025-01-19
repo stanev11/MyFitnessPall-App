@@ -436,6 +436,10 @@ void GetReportForDate(vector<string> mealPlan, vector<string> trainingPlan)
 	double calsEaten = 0;
 	double calsBurnt = 0;
 	double calGoal = stod(mealPlan[1]);
+	DisplayPlans(mealPlan, calsEaten, "Meals", date);
+	DisplayPlans(trainingPlan, calsBurnt, "Trainings", date);
+	SummaryCals(calGoal, calsEaten, calsBurnt);
+}
 //  - - - Functions about menu - - -
 void RepeatChar(char ch, int times)
 {
@@ -457,13 +461,20 @@ void WelcomeBackWords(string username)
 }
 
 //Display Trainings/ Meals
-void DisplayPlans(vector<string> plan, string date, double& cals,string descrp)
+void DisplayPlans(vector<string> plan, double& cals,string descrp,string date)
 {
+	if (plan.empty())
+	{
+		cout << "Couldn't find that account!\n";
+		return;
+	}
+
 	RepeatChar('-', 25);
-	cout << descrp<<" Today" << endl;
+	cout << descrp<<" "<<date << endl;
 
 	string currentRecord;
 	string currentDate;
+	bool exists = false;
 
 	for (int i = 0; i < plan.size(); i++)
 	{
@@ -475,8 +486,13 @@ void DisplayPlans(vector<string> plan, string date, double& cals,string descrp)
 			ind = currentRecord.find_last_of(',');
 			cals += stod(currentRecord.substr(ind + 1));
 			cout << currentRecord << endl;
-			
+			exists = true;
 		}
+	}
+	
+	if (!exists)
+	{
+		cout << "There is no data for " << descrp << " on " << date<<endl;
 	}
 }
 
@@ -759,6 +775,8 @@ void LogInWindow()
 	vector<string> account = FindAccount(username);
 	vector<string> mealPlan = FindPlan(mealPlans,username);
 	vector<string> trainingPlan = FindPlan(trainingPlans, username);
+
+	system("cls"); //Not sure if it's allowed to be used
 	LoadMenu(account,mealPlan,trainingPlan);
 }
 
@@ -774,6 +792,7 @@ vector<string> CreateProfile(string username,string password,int age,bool gender
 	account.push_back(to_string(weight));
 	account.push_back(to_string(levelOfActiveness));
 	account.push_back(to_string(goal));
+	account.push_back(to_string(typeOfAccount));
 
 	ofstream WriteInFileUsersInfo("usersInfo.txt",ios::app);
 
@@ -784,7 +803,7 @@ vector<string> CreateProfile(string username,string password,int age,bool gender
 	}
 
 	string user = username + "," + password + "," + to_string(age) + "," + to_string(gender)
-		+ "," + to_string(height) + "," + to_string(weight) + "," + to_string(levelOfActiveness) + "," + to_string(goal)+","+to_string(kgToGainOrLose);
+		+ "," + to_string(height) + "," + to_string(weight) + "," + to_string(levelOfActiveness) + "," + to_string(goal)+","+to_string(kgToGainOrLose)+","+to_string(typeOfAccount);
 	WriteInFileUsersInfo << user << endl;
 	WriteInFileUsersInfo.close();
 
@@ -801,6 +820,7 @@ vector<string> CreatePlan(string username, char* fileName, string descrp, int ty
 	{
 		plan.push_back(to_string(dailyCal));
 		plan.push_back(to_string(typeOfAccount));
+		plan.push_back(to_string(macros[0])+","+to_string(macros[1])+","+to_string(macros[2]));
 	}
 
 	ofstream TrackerFile(fileName, ios::app);
@@ -938,10 +958,10 @@ void LoadMenu(vector<string>& account, vector<string>& mealPlan,vector<string>& 
 	double burntCals = 0;
 
 	//Displaying Some Info About Meals For Today
-	DisplayPlans(mealPlan, date, calEaten,"Meals");
+	DisplayPlans(mealPlan, calEaten,"Meals",date);
 
 	//Display Trainings
-	DisplayPlans(trainingPlan, date, burntCals,"Trainings");
+	DisplayPlans(trainingPlan, burntCals,"Trainings",date);
 
 	//Summary of eaten/burnt/goal calories
 	SummaryCals(calGoal, calEaten,burntCals);
