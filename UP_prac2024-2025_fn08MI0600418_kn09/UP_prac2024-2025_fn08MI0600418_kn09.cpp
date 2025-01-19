@@ -374,6 +374,11 @@ vector<string> FindAccount(string username);
 //Find Meal/Training Plan
 vector<string> FindPlan(vector<vector<string>> plans, string username);
 
+//Display Plans
+void DisplayPlans(vector<string> plan, double& cals, string descrp, string date=GetDate());
+
+//Summary Goal/Burnt/Eaten Calories
+void SummaryCals(double calGoal, double calEaten, double burntCals);
 
 //Show Macronutrients
 void ShowMacros(vector<string> mealPlan);
@@ -383,6 +388,13 @@ void AddData(vector<string>& plan,string descrp,int pos=-1);
 
 //Updating Plan
 void UpdatePlan(vector<vector<string>>& plans, vector<string> plan);
+//Updating Plans Or Users
+void UpdateData(vector<vector<string>>& plans, vector<string> plan, string username = "");
+
+//Edit Or Delete Meal/Training
+void RemoveData(vector<vector<string>>& plans, vector<string>& plan, string name);
+void EditData(vector<string>& plan, string name,string descrp);
+void EditOrDeleteData(vector<vector<string>>& plans, vector<string>& plan, string descrp);
 //Get Report For Specific Date
 //Validate Input Date
 bool CheckDate(string date)
@@ -640,16 +652,15 @@ void AddData(vector<string>& plan,string descrp,int pos)
 	if (pos == -1) plan.push_back(infoToAppend);
 	else plan[pos] = infoToAppend;
 
-	if (descrp=="food" || descrp=="new food") UpdatePlans(mealPlans, plan);
-	else if (descrp == "training" || descrp=="new training") UpdatePlans(trainingPlans, plan);
+	if (descrp=="food" || descrp=="new food") UpdateData(mealPlans, plan);
+	else if (descrp == "training" || descrp=="new training") UpdateData(trainingPlans, plan);
 
 	cout << " - - - Added "<<descrp<<" : " << name << " for " << cals << " calories!- -\n-";
 }
 
-//Edit Meal
+//Edit/Delete Meal/Training In Plan
 void RemoveData(vector<vector<string>>& plans,vector<string>& plan, string name)
 {
-	if (plan.empty())
 	{
 		cout << "A problem occured!";
 		return;
@@ -671,7 +682,7 @@ void RemoveData(vector<vector<string>>& plans,vector<string>& plan, string name)
 			{
 				string cpy = plan[i];
 				plan.erase(plan.begin()+i);
-				UpdatePlans(plans, plan);
+				UpdateData(plans, plan,plan[0]);
 				cout << "- - -Successfully Deleted Record : " << cpy<<" - - -\n";
 				return;
 			}
@@ -679,6 +690,38 @@ void RemoveData(vector<vector<string>>& plans,vector<string>& plan, string name)
 	}
 	cout << "Couldn't find this record!";
 }
+void EditData(vector<string>& plan, string name,string descrp)
+{
+	if (plan.empty())
+	{
+		cout << "A problem occured!";
+		return;
+	}
+	string date = GetDate();
+	string currentDate;
+	string currentName;
+	string currentRecord;
+	for (int i = 0; i < plan.size(); i++)
+	{
+		currentRecord = plan[i];
+		size_t firstDel = currentRecord.find(',');
+		currentDate = currentRecord.substr(0, firstDel);
+		if (currentDate == date)
+		{
+			size_t secDel = currentRecord.find(',', firstDel + 1);
+			currentName = currentRecord.substr(firstDel + 1, secDel - firstDel - 1);
+			if (currentName == name)
+			{
+				
+				AddData(plan, descrp,i);
+				cout << "- - -Successfully Edited "<<descrp<<" - --\n";
+				return;
+			}
+		}
+	}
+	cout << "Couldn't find this record!\n";
+}
+
 void EditOrDeleteData(vector<vector<string>>& plans,vector<string>& plan,string descrp)
 {
 	RepeatChar('-', 20);
