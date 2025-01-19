@@ -383,6 +383,59 @@ void AddData(vector<string>& plan,string descrp,int pos=-1);
 
 //Updating Plan
 void UpdatePlan(vector<vector<string>>& plans, vector<string> plan);
+//Get Report For Specific Date
+//Validate Input Date
+bool CheckDate(string date)
+{
+	string today = GetDate();
+
+	size_t firstDel = today.find('.');
+	size_t secDel = today.find('.', firstDel + 1);
+
+	int todayDay = stoi(today.substr(0, firstDel));
+	int todayMonth = stoi(today.substr(firstDel + 1, secDel - firstDel - 1));
+	int todayYear = stoi(today.substr(secDel+1));
+
+	int checkDay = stoi(date.substr(0, firstDel));
+	int checkMonth = stoi(date.substr(firstDel + 1, secDel - firstDel - 1));
+	int checkYear = stoi(date.substr(secDel + 1));
+
+	if (checkYear > todayYear) return false;
+	if (checkYear < todayYear) return true;
+	if (checkMonth > todayMonth) return false;
+	if (checkMonth < todayMonth) return true;
+	if (checkDay > todayDay) return false;
+	return true;
+
+}
+string GetUserInputDate()
+{
+	string date;
+	do
+	{
+		cout << "Enter date in format \"dd.mm.yyyy\" : ";
+		cin >> date;
+		if (cin.fail())
+		{
+			cin.clear();
+			cin.ignore(10000, '\n');
+			cout << "Invalid input!\n";
+		}
+		else if (!CheckDate(date))
+		{
+			cout << "Invalid date!\n";
+		}
+		else break;
+	} while (true);
+	return date;
+}
+//Get Report
+void GetReportForDate(vector<string> mealPlan, vector<string> trainingPlan)
+{
+	string date = GetUserInputDate();
+	double calsEaten = 0;
+	double calsBurnt = 0;
+	double calGoal = stod(mealPlan[1]);
 //  - - - Functions about menu - - -
 void RepeatChar(char ch, int times)
 {
@@ -464,11 +517,11 @@ void GetContextMenuOptions(int typeOfAcc)
 	RepeatChar('-', 25);
 	cout << i++ << ") Add Meal\n";
 	cout << i++ << ") Add Training.\n";
-	cout << i++ << ") Edit Meal For Today.\n";
-	cout << i++ << ") Edit training for today.\n"; 
+	cout << i++ << ") Edit/Delete Meal For Today.\n";
+	cout << i++ << ") Edit/Delete Training for today.\n"; 
 	RepeatChar('-', 25);
 	cout << i++ << ") Get Report For Specific Date\n";
-	cout << i++ << ") Edit profile\n";
+	cout << i++ << ") Edit Profile\n";
 	cout << i++ << ") Log Out\n";
 	cout << i++ << ") Exit Program\n";
 	RepeatChar('-', 25);
@@ -478,6 +531,12 @@ void GetContextMenuOptions(int typeOfAcc)
 //Main Func For Bottom Menu Options
 void BotttomMenuOptions(vector<string>& account, vector<string>& mealPlan, vector<string>& trainingPlan)
 {
+	if (account.empty() || mealPlan.empty() || trainingPlan.empty())
+	{
+		cout << "An Error Occured!\n";
+		return;
+	}
+
 	int typeOfAcc = stoi(mealPlan[2]);
 	GetContextMenuOptions(typeOfAcc);
 	int n=GetInputOption(1,8);
@@ -502,6 +561,10 @@ void UpdatePlan(vector<vector<string>>& plans, vector<string> plan)
 	}
 //Updating Plans
 void UpdatePlans(vector<vector<string>>& plans, vector<string> plan)
+	else if (n == 5)
+	{
+		GetReportForDate(mealPlan, trainingPlan);
+	}
 {
 	if (plans.empty()) return;
 	for (int i = 0; i < plans.size(); i++)
