@@ -386,8 +386,6 @@ void ShowMacros(vector<string> mealPlan);
 //Add Meal
 void AddData(vector<string>& plan,string descrp,int pos=-1);
 
-//Updating Plan
-void UpdatePlan(vector<vector<string>>& plans, vector<string> plan);
 //Updating Plans Or Users
 void UpdateData(vector<vector<string>>& plans, vector<string> plan, string username = "");
 
@@ -395,6 +393,9 @@ void UpdateData(vector<vector<string>>& plans, vector<string> plan, string usern
 void RemoveData(vector<vector<string>>& plans, vector<string>& plan, string name);
 void EditData(vector<string>& plan, string name,string descrp);
 void EditOrDeleteData(vector<vector<string>>& plans, vector<string>& plan, string descrp);
+//Edit Profile
+void EditProfile(vector<string>& account);
+
 //Get Report For Specific Date
 //Validate Input Date
 bool CheckDate(string date)
@@ -589,6 +590,11 @@ void BotttomMenuOptions(vector<string>& account, vector<string>& mealPlan, vecto
 	{
 		GetReportForDate(mealPlan, trainingPlan);
 	}
+	else if (n == 6)
+	{
+		system("cls");
+		EditProfile(account);
+	}
 //Updating Plans And Users
 void UpdateData(vector<vector<string>>& plans, vector<string> plan,string username)
 {
@@ -735,6 +741,37 @@ void EditOrDeleteData(vector<vector<string>>& plans,vector<string>& plan,string 
 	if (n == 1) RemoveData(plans,plan, name);
 	else if (n == 2) EditData(plan, name, "new "+descrp);
 }
+//Display Profile Details
+void DisplayProfileDetails(vector<string> account)
+{
+	RepeatChar('-', 20);
+	cout << "Your profile details:\n";
+	for (int i = 0; i < account.size(); i++)
+	{
+		if (i == 1)
+		{
+			for (int i = 0; i < account[i].size(); i++)
+			{
+				cout << "*";
+			}
+		}
+		else cout << account[i];
+		if (i < account.size() - 1) cout << ",";
+	}
+	cout << endl;
+}
+//Get Options Menu Editing Profile Details
+void GetEditProfileOptions()
+{
+	cout << "1) Change Username\n2) Change Password\n3) Change Age\n4) Change Gender\n5) Change Height\n6) Change Weight\n7) Change Level Of Activeness\n8) Change Goal\n9)Change Kg To Lose/Gain\n10) Change Type Of Account";
+}
+//Edit Profile
+void EditProfile(vector<string>& account)
+{
+	DisplayProfileDetails(account);
+	GetEditProfileOptions();
+	int n = GetInputOption(1, 8);
+	string paramToEdit;
 }
 
 //0 Control Function
