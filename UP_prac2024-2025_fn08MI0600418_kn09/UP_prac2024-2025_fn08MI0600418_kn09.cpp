@@ -577,8 +577,6 @@ void BotttomMenuOptions(vector<string>& account, vector<string>& mealPlan, vecto
 	{
 		AddData(trainingPlan,"training");
 	}
-//Updating Plan
-void UpdatePlan(vector<vector<string>>& plans, vector<string> plan)
 	else if (n == 3)
 	{
 		EditOrDeleteData(mealPlans,mealPlan,"food");
@@ -587,18 +585,23 @@ void UpdatePlan(vector<vector<string>>& plans, vector<string> plan)
 	{
 		EditOrDeleteData(trainingPlans, trainingPlan, "training");
 	}
-//Updating Plans
-void UpdatePlans(vector<vector<string>>& plans, vector<string> plan)
 	else if (n == 5)
 	{
 		GetReportForDate(mealPlan, trainingPlan);
 	}
+//Updating Plans And Users
+void UpdateData(vector<vector<string>>& plans, vector<string> plan,string username)
 {
-	if (plans.empty()) return;
+	if (plans.empty() || plan.empty())
+	{
+		cout << "An Error Occured!\n";
+		return;
+	}
+	if (username.empty()) username = plan[0];
 	for (int i = 0; i < plans.size(); i++)
 	{
 		if (plans[i].empty()) continue;
-		if (plans[i][0] == plan[0])
+		if (plans[i][0] == username)
 		{
 			plans[i] = plan;
 			break;
@@ -661,6 +664,7 @@ void AddData(vector<string>& plan,string descrp,int pos)
 //Edit/Delete Meal/Training In Plan
 void RemoveData(vector<vector<string>>& plans,vector<string>& plan, string name)
 {
+	if (plan.empty() || plans.empty())
 	{
 		cout << "A problem occured!";
 		return;
@@ -729,6 +733,8 @@ void EditOrDeleteData(vector<vector<string>>& plans,vector<string>& plan,string 
 	int n = GetInputOption(1, 2);
 	string name = GetName(descrp);
 	if (n == 1) RemoveData(plans,plan, name);
+	else if (n == 2) EditData(plan, name, "new "+descrp);
+}
 }
 
 //0 Control Function
