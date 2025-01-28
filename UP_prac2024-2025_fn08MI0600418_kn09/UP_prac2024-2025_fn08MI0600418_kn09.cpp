@@ -99,6 +99,12 @@ void LogInWindow();
 //1.2 - Register Window
 void RegisterWindow();
 
+//Saving Data
+void SaveData(vector<string> account, vector<string> mealPlan, vector<string> trainingPlan, string username = "");
+
+//Save Plans
+void SaveTracker(fstream& MyFile, vector<string> plan, string username, char* fileName,char delim);
+
 //Exit Program
 void ExitProgram();
 
@@ -453,6 +459,79 @@ void GetReportForDate(vector<string> mealPlan, vector<string> trainingPlan)
 	DisplayPlans(trainingPlan, calsBurnt, "Trainings", date);
 	SummaryCals(calGoal, calsEaten, calsBurnt);
 }
+
+//Save Meals
+void SaveTracker(fstream& MyFile,vector<string> plan,string username,char* fileName,char delim)
+{
+	char tmpFile[] = "tempTracker.txt";
+	ofstream TempFile(tmpFile);
+	MyFile.open(fileName);
+	string currentLine;
+	string currentUsername;
+
+	if (!MyFile.is_open() || !TempFile.is_open())
+	{
+		cout << "Error! Couldn't open file!";
+		return;
+	}
+	/*string info;*/
+	while (!MyFile.eof())
+	{
+		getline(MyFile, currentLine);
+		currentUsername = currentLine.substr(0, currentLine.find(','));
+		if (currentUsername == username)
+		{
+			for (int i = 0; i < plan.size(); i++)
+			{
+				TempFile << plan[i];
+				/*info += plan[i];*/
+				if (i < plan.size() - 1)
+				{
+					TempFile << delim;
+					info += delim;
+				}
+			}
+			TempFile << "\n";
+			/*info += "\n";*/
+			if (delim == '\n')
+			{
+				while (currentLine != "*")
+				{
+					getline(MyFile, currentLine);
+				}
+				TempFile << "*\n";
+				/*info += "*\n";*/
+			}
+		}
+		else if(currentLine!="")
+		{
+			TempFile << currentLine<<'\n';
+		}
+	}
+	TempFile.close();
+	MyFile.close();
+	
+	if (remove(fileName) != 0 || rename(tmpFile, fileName) != 0)
+	{
+		cout << "An error occured!\n";
+		return;
+	}
+}
+
+void SaveData(vector<string> account, vector<string> mealPlan, vector<string> trainingPlan,string username)
+{
+	if(username.empty()) username = account[0];
+	fstream MyFile;
+
+	char usersFile[] = "usersInfo.txt";
+	char mealsFile[] = "mealsTracker.txt";
+	char trainingsFile[] = "trainingsTracker.txt";
+
+	SaveTracker(MyFile, account, username, usersFile,',');
+	SaveTracker(MyFile,mealPlan,username,mealsFile,'\n');
+	SaveTracker(MyFile,trainingPlan,username,trainingsFile,'\n');
+}
+
 //  - - - Functions about menu - - -
 void RepeatChar(char ch, int times)
 {
