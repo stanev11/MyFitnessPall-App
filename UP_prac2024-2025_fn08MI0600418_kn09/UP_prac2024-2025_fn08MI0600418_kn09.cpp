@@ -316,7 +316,7 @@ double GetKgToGainOrLose(int goal)
 	{
 		cout << "How much kg you want to ";
 		(goal == 1) ? cout<<"lose": cout<<"gain";
-		cout <<" per week?"<< endl;
+		cout <<" per week?";
 		cin >> kg;
 		if (cin.fail())
 		{
@@ -664,7 +664,7 @@ void AddData(vector<string>& plan,string descrp,int pos)
 	if (descrp=="food" || descrp=="new food") UpdateData(mealPlans, plan);
 	else if (descrp == "training" || descrp=="new training") UpdateData(trainingPlans, plan);
 
-	cout << " - - - Added "<<descrp<<" : " << name << " for " << cals << " calories!- -\n-";
+	cout << " - - - Added "<<descrp<<" : " << name << " for " << cals << " calories!- - - \n";
 }
 
 //Edit/Delete Meal/Training In Plan
@@ -763,15 +763,23 @@ void DisplayProfileDetails(vector<string> account)
 //Get Options Menu Editing Profile Details
 void GetEditProfileOptions()
 {
-	cout << "1) Change Username\n2) Change Password\n3) Change Age\n4) Change Gender\n5) Change Height\n6) Change Weight\n7) Change Level Of Activeness\n8) Change Goal\n9)Change Kg To Lose/Gain\n10) Change Type Of Account";
+	cout << "1) Change Username\n2) Change Password\n3) Change Age\n4) Change Gender\n5) Change Height\n6) Change Weight\n7) Change Level Of Activeness\n8) Change Goal\n9) Change Kg To Lose/Gain\n10) Change Type Of Account\n11) Go Back\n";
 }
 //Edit Profile
 void EditProfile(vector<string>& account)
 {
 	DisplayProfileDetails(account);
 	GetEditProfileOptions();
-	int n = GetInputOption(1, 8);
+	int n = GetInputOption(1, 11);
 	string paramToEdit;
+	if (n == 11) return;
+	else if (n == 1) paramToEdit = GetUsername();
+	else if (n == 2) paramToEdit = GetPassword();
+	else if (n == 3) paramToEdit = to_string(GetAge());
+	else if (n == 4) paramToEdit = to_string(GetGender());
+	else if (n == 5) paramToEdit = to_string(GetHeight());
+	else if (n == 6) paramToEdit = to_string(GetWeight());
+	else if (n == 7) paramToEdit = to_string(GetActiveness());
 }
 
 //0 Control Function
