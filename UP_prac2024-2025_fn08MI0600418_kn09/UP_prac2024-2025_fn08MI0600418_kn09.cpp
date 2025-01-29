@@ -399,6 +399,9 @@ void UpdateData(vector<vector<string>>& plans, vector<string> plan, string usern
 void RemoveData(vector<vector<string>>& plans, vector<string>& plan, string name);
 void EditData(vector<string>& plan, string name,string descrp);
 void EditOrDeleteData(vector<vector<string>>& plans, vector<string>& plan, string descrp);
+
+//Edit Parameter
+void EditParameter(string parameter,int pos,vector<string>& account,vector<vector<string>>& plans);
 //Edit Profile
 void EditProfile(vector<string>& account);
 
@@ -819,6 +822,29 @@ void EditOrDeleteData(vector<vector<string>>& plans,vector<string>& plan,string 
 	string name = GetName(descrp);
 	if (n == 1) RemoveData(plans,plan, name);
 	else if (n == 2) EditData(plan, name, "new "+descrp);
+}
+
+//Edit Parameter
+void EditParameter(string parameter, int pos, vector<string>& plan,vector<vector<string>>& plans)
+{
+	if (plan.empty())
+	{
+		cout << "An Error Occured!\n";
+		return;
+	}
+	string oldUsername = plan[0];
+	plan[pos] = parameter;
+
+	if (pos == 0)
+	{
+		UpdateData(plans, plan, oldUsername);
+	}
+	else
+	{
+		UpdateData(plans, plan);
+	}
+
+	cout << "- - - Successfully Edited Profile Details! - - -\n";
 }
 //Display Profile Details
 void DisplayProfileDetails(vector<string> account)
