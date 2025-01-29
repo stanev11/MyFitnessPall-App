@@ -940,6 +940,11 @@ void EditProfile(vector<string>& account)
 		}
 		else paramToEdit = to_string(GetKgToGainOrLose(stoi(account[7])));
 	}
+	else if (n == 10)
+	{
+		paramToEdit = to_string(GetTypeOfAccount());
+		if(paramToEdit!=account[9]) EditParameter(paramToEdit, 2, mealPlan,mealPlans);
+	}
 }
 
 //0 Control Function
