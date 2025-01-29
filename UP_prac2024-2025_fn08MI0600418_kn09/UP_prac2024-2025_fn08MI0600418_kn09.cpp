@@ -897,6 +897,19 @@ void EditProfile(vector<string>& account)
 	{
 		paramToEdit = to_string(GetGoal());
 		double kgToGainOrLose = (paramToEdit == "2") ? 0 : GetKgToGainOrLose(stoi(paramToEdit));
+		EditParameter(to_string(kgToGainOrLose), n, account,users);
+	}
+	else if (n == 9)
+	{
+		if (account[7] == "2")
+		{
+			cout << "You previously have chosen as a goal to maintain weight!\nIn order to change kg to gain/lose, you need to change your goal first!\n";
+			Sleep(1500);
+			system("cls");
+			EditProfile(account);
+		}
+		else paramToEdit = to_string(GetKgToGainOrLose(stoi(account[7])));
+	}
 }
 
 //0 Control Function
