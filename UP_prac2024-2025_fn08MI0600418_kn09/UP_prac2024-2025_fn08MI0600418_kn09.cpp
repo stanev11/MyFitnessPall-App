@@ -409,9 +409,26 @@ void EditProfile(vector<string>& account);
 
 //Get Report For Specific Date
 //Validate Input Date
+bool DateValidSymbols(string date)
+{
+	string validSymbols= "0123456789.";
+	for (int i = 0; i < date.length(); i++)
+	{
+		if (validSymbols.find(date[i]) == -1) return false;
+		if (i == 2 || i == 5)
+		{
+			if (date[i] != '.') return false;
+		}
+	}
+	return true;
+}
 bool CheckDate(string date)
 {
+	if (date.empty() || !DateValidSymbols(date)) return false;
+
 	string today = GetDate();
+
+	if (today.length() != date.length()) return false;
 
 	size_t firstDel = today.find('.');
 	size_t secDel = today.find('.', firstDel + 1);
