@@ -488,7 +488,7 @@ void SaveTracker(fstream& MyFile,vector<string> plan,string username,char* fileN
 				if (i < plan.size() - 1)
 				{
 					TempFile << delim;
-					info += delim;
+					/*info += delim;*/
 				}
 			}
 			TempFile << "\n";
@@ -848,9 +848,17 @@ void GetEditProfileOptions()
 void EditProfile(vector<string>& account)
 {
 	DisplayProfileDetails(account);
+
+	string currentUsername = account[0];
+	string currentPlan = account[9];
+	vector<string> mealPlan = FindPlan(mealPlans, currentUsername);
+	vector<string> trainingPlan = FindPlan(trainingPlans, currentUsername);
+
+
 	GetEditProfileOptions();
 	int n = GetInputOption(1, 11);
 	string paramToEdit;
+
 	if (n == 11) return;
 	else if (n == 1) paramToEdit = GetUsername();
 	else if (n == 2) paramToEdit = GetPassword();
@@ -859,6 +867,10 @@ void EditProfile(vector<string>& account)
 	else if (n == 5) paramToEdit = to_string(GetHeight());
 	else if (n == 6) paramToEdit = to_string(GetWeight());
 	else if (n == 7) paramToEdit = to_string(GetActiveness());
+	else if (n == 8)
+	{
+		paramToEdit = to_string(GetGoal());
+		double kgToGainOrLose = (paramToEdit == "2") ? 0 : GetKgToGainOrLose(stoi(paramToEdit));
 }
 
 //0 Control Function
@@ -965,6 +977,7 @@ vector<string> CreateProfile(string username,string password,int age,bool gender
 	account.push_back(to_string(weight));
 	account.push_back(to_string(levelOfActiveness));
 	account.push_back(to_string(goal));
+	account.push_back(to_string(kgToGainOrLose));
 	account.push_back(to_string(typeOfAccount));
 
 	ofstream WriteInFileUsersInfo("usersInfo.txt",ios::app);
@@ -993,7 +1006,7 @@ vector<string> CreatePlan(string username, char* fileName, string descrp, int ty
 	{
 		plan.push_back(to_string(dailyCal));
 		plan.push_back(to_string(typeOfAccount));
-		plan.push_back(to_string(macros[0])+","+to_string(macros[1])+","+to_string(macros[2]));
+		if(typeOfAccount==2) plan.push_back(to_string(macros[0])+","+to_string(macros[1])+","+to_string(macros[2]));
 	}
 
 	ofstream TrackerFile(fileName, ios::app);
@@ -1056,6 +1069,7 @@ void RegisterWindow()
 	//Training plan
 	char trainingsFile[] = "trainingsTracker.txt";
 	vector<string> trainingPlan = CreatePlan(username,trainingsFile,"training");
+	trainingPlans.push_back(trainingPlan);
 
 	system("cls"); //Not sure if it's allowed to be used
 	LoadMenu(account,mealPlan,trainingPlan);
