@@ -696,6 +696,16 @@ void BotttomMenuOptions(vector<string>& account, vector<string>& mealPlan, vecto
 		system("cls");
 		EditProfile(account);
 	}
+	else if (n == 7)
+	{
+		SaveData(account, mealPlan, trainingPlan);
+		LogOut();
+	}
+	else if (n == 8)
+	{
+		SaveData(account, mealPlan, trainingPlan);
+		ExitProgram();
+	}
 //Updating Plans And Users
 void UpdateData(vector<vector<string>>& plans, vector<string> plan,string username)
 {
