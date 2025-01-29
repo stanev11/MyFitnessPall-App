@@ -402,6 +402,8 @@ void EditOrDeleteData(vector<vector<string>>& plans, vector<string>& plan, strin
 
 //Edit Parameter
 void EditParameter(string parameter,int pos,vector<string>& account,vector<vector<string>>& plans);
+//Display Profile Details
+void DisplayProfileDetails(vector<string> account);
 //Edit Profile
 void EditProfile(vector<string>& account);
 
@@ -851,18 +853,29 @@ void DisplayProfileDetails(vector<string> account)
 {
 	RepeatChar('-', 20);
 	cout << "Your profile details:\n";
-	for (int i = 0; i < account.size(); i++)
-	{
-		if (i == 1)
-		{
-			for (int i = 0; i < account[i].size(); i++)
-			{
-				cout << "*";
-			}
-		}
-		else cout << account[i];
-		if (i < account.size() - 1) cout << ",";
-	}
+	cout << "Username: " << account[0] << endl;
+	cout << "Age: " << account[2] << endl;
+	cout << "Gender: ";
+	if (account[3] == "0") cout << "male\n";
+	else cout << "female\n";
+	cout << "Height: " << account[4] << endl;
+	cout << "Weight: " << account[5] << endl;
+	cout << "Level Of Activeness: ";
+	if (account[6] == "1") cout << "Not Active";
+	else if (account[6] == "2") cout << "Not Very Active";
+	else if (account[6] == "3") cout << "Slightly Active";
+	else if (account[6] == "4") cout << "Active";
+	else cout << "Very Active";
+	cout << "\nGoal: ";
+	if (account[7] == "1") cout << "Lose Weight";
+	else if (account[7] == "2") cout << "Maintain Weight";
+	else cout<<"Gain Weight";
+	cout << endl;
+	if (account[7] == "1") cout << "Kg To Lose: " << account[8] << endl;
+	else if (account[7] == "3") cout << "Kg To Gain: " << account[8] << endl;
+	cout << "Type Of Account: ";
+	if (account[9] == "1") cout << "Standard";
+	else cout<<"Premium";
 	cout << endl;
 }
 //Get Options Menu Editing Profile Details
