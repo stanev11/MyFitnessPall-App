@@ -945,6 +945,34 @@ void EditProfile(vector<string>& account)
 		paramToEdit = to_string(GetTypeOfAccount());
 		if(paramToEdit!=account[9]) EditParameter(paramToEdit, 2, mealPlan,mealPlans);
 	}
+
+	EditParameter(paramToEdit, n - 1, account,users);
+	double dailyCals = stod(mealPlan[1]);
+
+	if (n == 1)
+	{
+		EditParameter(paramToEdit, 0, mealPlan, mealPlans);
+		EditParameter(paramToEdit, 0, trainingPlan, trainingPlans);
+	}
+
+	else if (n >= 3 && n <= 10)
+	{
+		if(n!=10) dailyCals = CalculateDailyCalories(stoi(account[2]),stoi(account[3]),stod(account[4]),stod(account[5]),stoi(account[6]),stoi(account[7]),stod(account[8]));
+		if (n == 10 && paramToEdit=="1")
+		{
+			if(currentPlan=="2") mealPlan.erase(mealPlan.begin() + 3);
+		}
+		else
+		{
+			double macros[3];
+			CalculateMacros(stod(account[7]), dailyCals, macros);
+			mealPlan[1] = to_string(dailyCals);
+			if (n == 10 && paramToEdit!=currentPlan) mealPlan.insert(mealPlan.begin() + 3, to_string(macros[0]) + "," + to_string(macros[1]) + "," + to_string(macros[2]));
+			else mealPlan[3] = to_string(macros[0]) + "," + to_string(macros[1]) + "," + to_string(macros[2]);
+		}
+	}
+	UpdateData(mealPlans, mealPlan,currentUsername);
+	UpdateData(trainingPlans, trainingPlan,currentUsername);
 }
 
 //0 Control Function
