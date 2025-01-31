@@ -1049,9 +1049,6 @@ void StartProgram()
 
 	//1 - Register or log-in window
 	RegisterOrLogIn();
-
-	//2 -Load Menu
-
 }
 
 //Exit Program
@@ -1158,6 +1155,7 @@ vector<string> CreateProfile(string username,string password,int age,bool gender
 	string user = username + "," + password + "," + to_string(age) + "," + to_string(gender)
 		+ "," + to_string(height) + "," + to_string(weight) + "," + to_string(levelOfActiveness) + "," + to_string(goal)+","+to_string(kgToGainOrLose)+","+to_string(typeOfAccount);
 	WriteInFileUsersInfo << user << endl;
+
 	WriteInFileUsersInfo.close();
 
 	cout << "- Successfully created a profile! -"<<endl;
@@ -1295,6 +1293,7 @@ bool CheckIfAccountIsEmpty(vector<string>& account)
 	}
 	return false;
 }
+
 //Load Main Menu
 void LoadMenu(vector<string>& account, vector<string>& mealPlan,vector<string>& trainingPlan)
 {
