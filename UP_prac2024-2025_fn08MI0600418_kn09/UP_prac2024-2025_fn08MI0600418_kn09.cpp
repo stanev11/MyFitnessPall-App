@@ -404,6 +404,7 @@ void UpdateData(vector<vector<string>>& plans, vector<string> plan, string usern
 
 //Edit Or Delete Meal/Training
 void RemoveData(vector<vector<string>>& plans, vector<string>& plan, string name);
+void RemoveAllDataForDate(vector<vector<string>>& plans, vector<string>& plan, string date);
 void EditData(vector<string>& plan, string name,string descrp);
 void EditOrDeleteData(vector<vector<string>>& plans, vector<string>& plan, string descrp);
 
@@ -658,6 +659,7 @@ void GetContextMenuOptions(int typeOfAcc)
 	cout << i++ << ") Edit/Delete Meal For Today.\n";
 	cout << i++ << ") Edit/Delete Training for today.\n"; 
 	RepeatChar('-', 25);
+	cout << i++ << ") Delete Records For Specific Date\n";
 	cout << i++ << ") Get Report For Specific Date\n";
 	cout << i++ << ") Edit Profile\n";
 	cout << i++ << ") Log Out\n";
@@ -677,7 +679,7 @@ void BotttomMenuOptions(vector<string>& account, vector<string>& mealPlan, vecto
 
 	int typeOfAcc = stoi(mealPlan[2]);
 	GetContextMenuOptions(typeOfAcc);
-	int n=GetInputOption(1,8);
+	int n=GetInputOption(1,9);
 	string username = account[0];
 	if (n == 1) //Add Meal
 	{
@@ -697,21 +699,27 @@ void BotttomMenuOptions(vector<string>& account, vector<string>& mealPlan, vecto
 	}
 	else if (n == 5)
 	{
+		string date = GetUserInputDate();
+		RemoveAllDataForDate(mealPlans, mealPlan,date);
+		RemoveAllDataForDate(trainingPlans, trainingPlan,date);
+	}
+	else if (n == 6)
+	{
 		GetReportForDate(mealPlan, trainingPlan);
 		cout << "Press any key to go back!" << endl;
 		char input; cin >> input;
 	}
-	else if (n == 6)
+	else if (n == 7)
 	{
 		system("cls");		
 		EditProfile(account);
 	}
-	else if (n == 7)
+	else if (n == 8)
 	{
 		SaveData(account, mealPlan, trainingPlan);
 		LogOut();
 	}
-	else if (n == 8)
+	else if (n == 9)
 	{
 		SaveData(account, mealPlan, trainingPlan);
 		ExitProgram();
@@ -826,6 +834,33 @@ void RemoveData(vector<vector<string>>& plans,vector<string>& plan, string name)
 				cout << "- - -Successfully Deleted Record : " << cpy<<" - - -\n";
 				return;
 			}
+		}
+	}
+	cout << "Couldn't find this record!";
+}
+void RemoveAllDataForDate(vector<vector<string>>& plans, vector<string>& plan, string date)
+{
+	if (plan.empty() || plans.empty())
+	{
+		cout << "A problem occured!";
+		return;
+	}
+
+	string currentDate;
+	string currentName;
+	string currentRecord;
+	for (int i = 0; i < plan.size(); i++)
+	{
+		currentRecord = plan[i];
+		size_t firstDel = currentRecord.find(',');
+		currentDate = currentRecord.substr(0, firstDel);
+		if (currentDate == date)
+		{
+			/*vector<string> cpy = plan;*/
+			plan.erase(plan.begin() + i);
+			UpdateData(plans, plan, plan[0]);
+			cout << "- - -Successfully Deleted Record - - -\n";
+			return;
 		}
 	}
 	cout << "Couldn't find this record!";
@@ -1077,7 +1112,8 @@ void RegisterOrLogIn()
 //Log In Window
 void LogInWindow()
 {
-	cout << "- - - Log In Form - - -" << endl;
+	system("cls");
+	cout << "- - - Log In Form - - -" << endl<<endl;
 	string username, password;
 	bool exists;
 	do
@@ -1163,6 +1199,7 @@ vector<string> CreatePlan(string username, char* fileName, string descrp, int ty
 //Register Window
 void RegisterWindow()
 {
+	system("cls");
 	cout << "- - - Registration Form - - -" << endl << endl;
 
 	//User input and checking if username is unique to continue the register proccess
