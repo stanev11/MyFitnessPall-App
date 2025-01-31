@@ -137,8 +137,14 @@ string GetUsername(bool checkAccount = 0)
 	bool exists = false;
 	do
 	{
+		cout << "Press \"B\" to go back!" << endl;
 		cout << "Enter username: ";
 		cin >> username;
+		if (username == "B")
+		{
+			system("cls");
+			RegisterOrLogIn();
+		}
 		exists = CheckIfUserExists(username);
 		if (!exists)
 		{
@@ -164,7 +170,7 @@ string GetPassword(bool checkAccount=0)
 	{
 		cout << "Enter password: ";
 		cin >> password;
-		if (password.length() < MIN_SIZE && !checkAccount) cout << "Too short password! Please try again!"<<endl;
+		if (password.length() < MIN_SIZE && !checkAccount) cout << "Too short password! Please try again!" << endl;
 		else break;
 	} while (true);
 	return password;
@@ -184,11 +190,11 @@ int GetAge()
 		{
 			cin.clear();
 			cin.ignore(1000000,'\n');
-			cout << "Invalid input!";
+			cout << "Invalid age!"<<endl;
 		}
 		else if (age < MIN_AGE || age>MAX_AGE)
 		{
-			cout << "Please enter age in between 10 and 100!";
+			cout << "Please enter age in between 10 and 100!"<<endl;
 		}
 		else break;
 		cout << endl;
@@ -208,7 +214,7 @@ bool GetGender()
 		{
 			cin.clear();
 			cin.ignore(1000000, '\n');
-			cout << "Invalid gender choice!";
+			cout << "Invalid gender choice!"<<endl;
 		}
 		else if (gender == 0) return 0;
 		else if (gender == 1) return 1;
@@ -224,15 +230,15 @@ double GetHeight()
 	double height;
 	do
 	{
-		cout << "Height : ";
+		cout << "Height (in cm) : ";
 		cin >> height;
 		if (cin.fail())
 		{
 			cin.clear();
 			cin.ignore(1000000, '\n');
-			cout << "Invalid input!";
+			cout << "Invalid height!"<<endl;
 		}
-		else if (height - MIN_HEIGHT < EPSILON || height-MAX_HEIGHT > EPSILON) cout << "Invalid height!";
+		else if (height - MIN_HEIGHT < EPSILON || height-MAX_HEIGHT > EPSILON) cout << "Invalid height!"<<endl;
 		else break;
 	} while (true);
 	return height;
@@ -247,15 +253,15 @@ double GetWeight()
 	double weight;
 	do
 	{
-		cout << "Weight : ";
+		cout << "Weight (in kg) : ";
 		cin >> weight;
 		if (cin.fail())
 		{
 			cin.clear();
 			cin.ignore(1000000, '\n');
-			cout << "Invalid input!";
+			cout << "Invalid weight!"<<endl;
 		}
-		else if (weight - MIN_WEIGHT < EPSILON || weight - MAX_WEIGHT > EPSILON) cout << "Invalid weight!";
+		else if (weight - MIN_WEIGHT < EPSILON || weight - MAX_WEIGHT > EPSILON) cout << "Invalid weight!"<<endl;
 		else break;
 	} while (true);
 	return weight;
@@ -279,9 +285,9 @@ int GetActiveness()
 		{
 			cin.clear();
 			cin.ignore(1000000, '\n');
-			cout << "Invalid input!";
+			cout << "Invalid choice!"<<endl;
 		}
-		else if (option<1 || option>5) cout << "Invalid choice!";
+		else if (option<1 || option>5) cout << "Invalid choice!"<<endl;
 		else break;
 	} while (true);
 	return option;
@@ -303,9 +309,9 @@ int GetGoal()
 		{
 			cin.clear();
 			cin.ignore(1000000, '\n');
-			cout << "Invalid input!";
+			cout << "Invalid choice!"<<endl;
 		}
-		else if (goal<1 || goal>3) cout << "Invalid choice!";
+		else if (goal<1 || goal>3) cout << "Invalid choice!"<<endl;
 		else break;
 	} while (true);
 	return goal;
@@ -328,7 +334,7 @@ double GetKgToGainOrLose(int goal)
 		{
 			cin.clear();
 			cin.ignore(1000000, '\n');
-			cout << "Invalid input!";
+			cout << "Invalid kilos!"<<endl;
 		}
 		else if (kg-MIN<EPSILON|| kg-MAX>EPSILON) cout << "Please enter kilos between 0 and 10!"<<endl;
 		else break;
@@ -351,9 +357,9 @@ int GetTypeOfAccount()
 		{
 			cin.clear();
 			cin.ignore(1000000, '\n');
-			cout << "Invalid input!";
+			cout << "Invalid choice!"<<endl;
 		}
-		else if (type != 1 && type != 2) cout << "Invalid choice!";
+		else if (type != 1 && type != 2) cout << "Invalid choice!"<<endl;
 		else break;
 	} while (true);
 	return type;
@@ -477,6 +483,7 @@ void GetReportForDate(vector<string> mealPlan, vector<string> trainingPlan)
 	double calsEaten = 0;
 	double calsBurnt = 0;
 	double calGoal = stod(mealPlan[1]);
+	system("cls");
 	DisplayPlans(mealPlan, calsEaten, "Meals", date);
 	DisplayPlans(trainingPlan, calsBurnt, "Trainings", date);
 	SummaryCals(calGoal, calsEaten, calsBurnt);
@@ -690,10 +697,12 @@ void BotttomMenuOptions(vector<string>& account, vector<string>& mealPlan, vecto
 	else if (n == 5)
 	{
 		GetReportForDate(mealPlan, trainingPlan);
+		cout << "Press any key to go back!" << endl;
+		char input; cin >> input;
 	}
 	else if (n == 6)
 	{
-		system("cls");
+		system("cls");		
 		EditProfile(account);
 	}
 	else if (n == 7)
@@ -953,7 +962,7 @@ void EditProfile(vector<string>& account)
 	else if (n == 10)
 	{
 		paramToEdit = to_string(GetTypeOfAccount());
-		if(paramToEdit!=account[9]) EditParameter(paramToEdit, 2, mealPlan,mealPlans);
+		if(paramToEdit!=currentPlan) EditParameter(paramToEdit, 2, mealPlan,mealPlans);
 	}
 
 	EditParameter(paramToEdit, n - 1, account,users);
