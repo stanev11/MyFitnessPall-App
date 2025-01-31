@@ -18,6 +18,7 @@
 #include <vector>
 #include <string>
 #include <ctime>
+#include <windows.h>
 using namespace std;
 
 //Global Variables
@@ -715,6 +716,15 @@ void BotttomMenuOptions(vector<string>& account, vector<string>& mealPlan, vecto
 		SaveData(account, mealPlan, trainingPlan);
 		ExitProgram();
 	}
+	mealPlan = FindPlan(mealPlans, account[0]);
+	trainingPlan = FindPlan(trainingPlans, account[0]);
+
+	SaveData(account, mealPlan, trainingPlan,username);
+	Sleep(1500);
+	system("cls");
+	LoadMenu(account, mealPlan, trainingPlan);
+}
+
 //Updating Plans And Users
 void UpdateData(vector<vector<string>>& plans, vector<string> plan,string username)
 {
@@ -1115,6 +1125,7 @@ vector<string> CreateProfile(string username,string password,int age,bool gender
 	WriteInFileUsersInfo.close();
 
 	cout << "- Successfully created a profile! -"<<endl;
+	Sleep(1500); //
 	return account;
 }
 
