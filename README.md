@@ -1,7 +1,3 @@
-//Solution to course project #9
-//Introduction to programming course
-//Faculty of Mathematics and Informatics of Sofia University
-//Winter Semester 2024 / 2025
 
 MyFitnessPal
 Курсов проект по УП – Практикум
