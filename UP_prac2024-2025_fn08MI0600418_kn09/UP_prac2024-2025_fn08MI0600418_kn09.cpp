@@ -18,7 +18,10 @@
 #include <vector>
 #include <string>
 #include <ctime>
+
+//#include <iomanip>
 #include <windows.h>
+//#include <stdio.h>
 using namespace std;
 
 //Global Variables
@@ -111,6 +114,16 @@ void ExitProgram();
 
 //Log out function
 void LogOut();
+
+//Go Back Function
+void GoBack()
+{
+	cout << "Press any key to go back!" << endl;
+	char input; cin >> input;
+	system("cls");
+	cin.ignore();
+	cin.clear();
+}
 
 //Create Profile
 vector<string> CreateProfile(string username, string password, int age, bool gender, double height, double weight, int levelOfActiveness, int goal, double kgToGainOrLose,int typeOfAccount);
@@ -321,8 +334,8 @@ int GetGoal()
 //Get Kilos To Gain Or Lose
 double GetKgToGainOrLose(int goal)
 {
-	const double MAX = 10;
-	const double MIN = 0;
+	const double MAX = 3.00000;
+	const double MIN = 0.00000;
 	const double EPSILON = 0.0000000;
 	double kg;
 	do
@@ -337,7 +350,7 @@ double GetKgToGainOrLose(int goal)
 			cin.ignore(1000000, '\n');
 			cout << "Invalid kilos!"<<endl;
 		}
-		else if (kg-MIN<EPSILON|| kg-MAX>EPSILON) cout << "Please enter kilos between 0 and 10!"<<endl;
+		else if (kg-MIN<=EPSILON || kg-MAX>EPSILON) cout << "Please enter kilos between 0 and 3!"<<endl;
 		else break;
 	} while (true);
 	return kg;
@@ -626,7 +639,12 @@ void SummaryCals(double calGoal,double calEaten,double burntCals)
 	cout << "Calories Goal: " << calGoal << endl;
 	cout << "Calories eaten: " << calEaten << endl;
 	cout << "Calories burnt: " << burntCals << endl;
-	cout << "Remaining Calories: " << calGoal - calEaten + burntCals << endl;
+	double remaining_cals = calGoal - calEaten + burntCals;
+	if (remaining_cals < 0)
+	{
+		cout << "You are " << -remaining_cals << " above the goal calories!" << endl;
+	}
+	else cout << "Remaining Calories: " << remaining_cals << endl;
 }
 
 //Bottom Menu / Choosing Option
@@ -706,8 +724,7 @@ void BotttomMenuOptions(vector<string>& account, vector<string>& mealPlan, vecto
 	else if (n == 6)
 	{
 		GetReportForDate(mealPlan, trainingPlan);
-		cout << "Press any key to go back!" << endl;
-		char input; cin >> input;
+		GoBack();
 	}
 	else if (n == 7)
 	{
@@ -998,9 +1015,9 @@ void EditProfile(vector<string>& account)
 		if (account[7] == "2")
 		{
 			cout << "You previously have chosen as a goal to maintain weight!\nIn order to change kg to gain/lose, you need to change your goal first!\n";
-			Sleep(1500);
-			system("cls");
+			GoBack();
 			EditProfile(account);
+			return;
 		}
 		else paramToEdit = to_string(GetKgToGainOrLose(stoi(account[7])));
 	}
@@ -1029,7 +1046,7 @@ void EditProfile(vector<string>& account)
 		else
 		{
 			double macros[3];
-			CalculateMacros(stod(account[7]), dailyCals, macros);
+			CalculateMacros(stoi(account[7]), dailyCals, macros);
 			mealPlan[1] = to_string(dailyCals);
 			if (n == 10 && paramToEdit!=currentPlan) mealPlan.insert(mealPlan.begin() + 3, to_string(macros[0]) + "," + to_string(macros[1]) + "," + to_string(macros[2]));
 			else mealPlan[3] = to_string(macros[0]) + "," + to_string(macros[1]) + "," + to_string(macros[2]);
