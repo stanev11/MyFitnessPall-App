@@ -120,7 +120,6 @@ void GoBack()
 {
 	cout << "Press any key to go back!" << endl;
 	char input; cin >> input;
-	system("cls");
 	cin.ignore();
 	cin.clear();
 }
@@ -242,11 +241,12 @@ double GetHeight()
 	const double MAX_HEIGHT = 225;
 	const double EPSILON = 0.0000000;
 	double height;
+	char ch;
 	do
 	{
 		cout << "Height (in cm) : ";
 		cin >> height;
-		if (cin.fail())
+		if (cin.fail() || cin.get(ch) && ch != '\n')
 		{
 			cin.clear();
 			cin.ignore(1000000, '\n');
@@ -265,11 +265,12 @@ double GetWeight()
 	const double MAX_WEIGHT = 250;
 	const double EPSILON = 0.0000000;
 	double weight;
+	char ch;
 	do
 	{
 		cout << "Weight (in kg) : ";
 		cin >> weight;
-		if (cin.fail())
+		if (cin.fail() || cin.get(ch) && ch != '\n')
 		{
 			cin.clear();
 			cin.ignore(1000000, '\n');
@@ -338,13 +339,14 @@ double GetKgToGainOrLose(int goal)
 	const double MIN = 0.00000;
 	const double EPSILON = 0.0000000;
 	double kg;
+	char ch;
 	do
 	{
 		cout << "How much kg you want to ";
 		(goal == 1) ? cout<<"lose": cout<<"gain";
 		cout <<" per week?";
 		cin >> kg;
-		if (cin.fail())
+		if (cin.fail() || cin.get(ch) && ch!='\n')
 		{
 			cin.clear();
 			cin.ignore(1000000, '\n');
@@ -1016,6 +1018,7 @@ void EditProfile(vector<string>& account)
 		{
 			cout << "You previously have chosen as a goal to maintain weight!\nIn order to change kg to gain/lose, you need to change your goal first!\n";
 			GoBack();
+			system("cls");
 			EditProfile(account);
 			return;
 		}
