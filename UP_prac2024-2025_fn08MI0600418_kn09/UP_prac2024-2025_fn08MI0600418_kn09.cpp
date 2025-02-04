@@ -153,7 +153,7 @@ string GetUsername(bool checkAccount = 0)
 		cout << "Press \"B\" to go back!" << endl;
 		cout << "Enter username: ";
 		cin >> username;
-		if (username == "B")
+		if (username == "B" || username=="b")
 		{
 			system("cls");
 			RegisterOrLogIn();
@@ -344,7 +344,7 @@ double GetKgToGainOrLose(int goal)
 	{
 		cout << "How much kg you want to ";
 		(goal == 1) ? cout<<"lose": cout<<"gain";
-		cout <<" per week?";
+		cout <<" per week? ";
 		cin >> kg;
 		if (cin.fail() || cin.get(ch) && ch!='\n')
 		{
@@ -791,13 +791,14 @@ double GetCals()
 	const double MAX_CALS = 5000;
 	const double EPSILON = 0.00000;
 	double cals;
+	char ch;
 	do
 	{
 		cout << "Enter calories: ";
 		cin >> cals;
-		if (cin.fail())
+		if (cin.fail() || cin.get(ch) && ch != '\n')
 		{
-			cout << "Invalid Option!" << endl;
+			cout << "Invalid Calories!" << endl;
 			cin.clear();
 			cin.ignore(10000, '\n');
 		}

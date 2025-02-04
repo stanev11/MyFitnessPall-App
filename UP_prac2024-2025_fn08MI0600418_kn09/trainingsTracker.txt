@@ -1,5 +1,8 @@
-Iva
-30.01.2025,Volleyball,250.000000
-*
 Yasen
+04.02.2025,Outdoor Running,350.000000
+04.02.2025,Push-ups,100.000000
+*
+Iva
+04.02.2025,Jogging,200.000000
+04.02.2025,Abs workout,150.000000
 *
